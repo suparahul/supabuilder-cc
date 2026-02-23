@@ -11,6 +11,51 @@ const SKILLS_DIR = path.join(CLAUDE_DIR, 'skills');
 const SRC_AGENTS = path.join(__dirname, 'agents');
 const SRC_SKILLS = path.join(__dirname, 'skills');
 
+// Handle --uninstall flag
+if (process.argv.includes('--uninstall')) {
+  console.log('\n  Supabuilder Uninstaller\n');
+
+  const agentFiles = fs.readdirSync(SRC_AGENTS).filter(f => f.endsWith('.md'));
+  let removed = 0;
+
+  console.log('  Removing agents...');
+  for (const agent of agentFiles) {
+    const dest = path.join(AGENTS_DIR, agent);
+    const backup = dest + '.backup';
+    if (fs.existsSync(dest)) {
+      fs.unlinkSync(dest);
+      removed++;
+    }
+    // Restore backup if one exists
+    if (fs.existsSync(backup)) {
+      fs.renameSync(backup, dest);
+      console.log(`    Restored backup of ${agent}`);
+    }
+  }
+  console.log(`    ${removed} agents removed\n`);
+
+  const skillDirs = fs.readdirSync(SRC_SKILLS).filter(f => {
+    return fs.statSync(path.join(SRC_SKILLS, f)).isDirectory();
+  });
+
+  console.log('  Removing skills...');
+  let skillsRemoved = 0;
+  for (const skill of skillDirs) {
+    const destSkill = path.join(SKILLS_DIR, skill);
+    if (fs.existsSync(destSkill)) {
+      fs.rmSync(destSkill, { recursive: true });
+      skillsRemoved++;
+    }
+  }
+  console.log(`    ${skillsRemoved} skills removed\n`);
+
+  console.log('  ────────────────────────────────────────────');
+  console.log('  Supabuilder uninstalled.\n');
+  console.log('  Backup agent files were restored where available.');
+  console.log('  ────────────────────────────────────────────\n');
+  process.exit(0);
+}
+
 console.log('\n  Supabuilder Installer\n');
 
 // Step 1: Ensure ~/.claude exists
