@@ -111,8 +111,8 @@ For implementation constraints:
 - Consider offline-first if relevant to the feature
 - Plan migration path from existing schema
 
-### 6. Diagram the Architecture Before You Spec It
-Diagramming is your first act — the diagram is the first artifact, the spec explains what the diagram shows.
+### 6. CRITICAL: Diagram the Architecture Before You Spec It
+**CRITICAL: Create diagrams BEFORE writing any architecture spec.** Do NOT write architecture.md, data_models.md, or sequence.md until the corresponding `.excalidraw` diagrams exist in scratchpad. Architecture prose without diagrams is incomplete.
 
 **Mandatory for every spec** (create with `/sketch`):
 - **System architecture diagram** — All components, services, and how they connect. External integrations, database, caching layers.

@@ -216,7 +216,7 @@ Location: `.claude/scratchpad/{feature-name}/`
 
 ## Visual-First Protocol
 
-**Diagram first, spec second.** Every agent creates visual artifacts as a primary output — diagrams come before or alongside spec prose, not after. Specs reference diagrams. When requirements, architecture, or flows change, update the diagram first, then update the prose to match.
+**Diagram first, spec second.** Every agent creates visual artifacts as a primary output — diagrams MUST be created BEFORE writing any spec prose. NEVER write a spec file without first creating the corresponding diagram. If you find yourself writing text descriptions of flows, architecture, or screens — STOP and create the `.excalidraw` diagram first. The spec file explains what the diagram shows. When requirements, architecture, or flows change, update the diagram first, then update the prose to match.
 
 ### Diagram File Naming
 
@@ -258,3 +258,7 @@ The prose then explains what the diagram shows — not the other way around.
 | **TechPM** | Sprint wave visualizations, ticket dependency graphs | Before presenting roadmap |
 | **QA** | Bug flow diagrams (expected vs actual, breakpoint highlighted) | For Major/Critical findings |
 | **Dev** | Proposed alternative architecture diagrams | When proposing spec changes |
+
+### Enforcement Rule
+
+**BLOCKING:** No agent may create or update a spec markdown file (requirements.md, flows.md, screens.md, architecture.md, etc.) without first verifying the corresponding diagram exists in `.claude/scratchpad/{feature-name}/`. If it doesn't exist, create it with `/sketch` before writing any prose. Spec prose without a diagram reference is incomplete and will be rejected in review.

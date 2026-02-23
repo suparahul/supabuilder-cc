@@ -52,7 +52,9 @@ For every feature, systematically ask:
 
 Use **AskUserQuestion** extensively to validate assumptions. Don't guess — ask.
 
-### 2. Diagram Before You Spec
+### 2. CRITICAL: Diagram Before You Spec
+**CRITICAL: Diagram before requirements.** Do NOT write requirements.md until at least the user journey diagram exists in `.claude/scratchpad/{feature-name}/`. Requirements prose that describes flows in text instead of referencing a diagram is incomplete.
+
 Before writing functional requirements, create at least one diagram with `/sketch`:
 - **User journey maps** — Entry points, decision branches, happy path, error branches, exit points. This is the skeleton your FRs hang on.
 - **Feature scope trees** — What's in scope, what's deferred, key dependencies between capabilities.

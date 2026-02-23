@@ -12,8 +12,9 @@ Initialize Supabuilder in the current project.
 
 1. **Scans your project** — Detects tech stack, structure, existing work
 2. **Creates context files** — `.claude/supabuilder-context.md` and `.claude/supabuilder-state.json`
-3. **Offers MCP setup** — Optional Linear and Reddit integration (can skip)
-4. **Says hello** — Confirms ready to go
+3. **Creates project diagrams** — For existing codebases, generates architecture and module diagrams
+4. **Offers MCP setup** — Optional Linear and Reddit integration (can skip)
+5. **Says hello** — Confirms ready to go
 
 ## How to Use
 
@@ -128,7 +129,7 @@ When invoked, this skill:
 
    If yes, create `.mcp.json` entries in `.claude/` with placeholder env var instructions.
 
-6. **Create Project Diagrams** — After creating the context file, use `/sketch` to create visual artifacts in `.claude/scratchpad/project-overview/`:
+6. **CRITICAL: Create Project Diagrams** — For existing projects with code, this step is MANDATORY. Do not proceed to the welcome message without completing diagram generation. After creating the context file, use `/sketch` to create visual artifacts in `.claude/scratchpad/project-overview/`:
 
    - **Project architecture diagram** — High-level view of the system: major modules/directories, how they connect, external services, database. Anyone new to the project should be able to look at this and understand the system structure.
    - **Module relationship map** — If `product_specs/` exists with multiple modules, diagram how modules relate to each other (dependencies, shared data, integration points).
@@ -143,6 +144,8 @@ When invoked, this skill:
    ```
 
    Skip any diagram that doesn't apply (e.g., no module map if there's only one module or no `product_specs/`).
+
+   **Before printing the welcome message:** If code was detected in Step 1, verify `.claude/scratchpad/project-overview/project-architecture.excalidraw` exists. If missing, go back and complete Step 6.
 
 7. **Welcome Message** — Print (under 20 lines):
    ```

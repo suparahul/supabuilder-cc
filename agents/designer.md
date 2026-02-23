@@ -96,22 +96,28 @@ Create interactive prototypes in `.claude/scratchpad/{feature-name}/`:
 - Make prototypes self-contained (single HTML file with inline styles/scripts)
 - Name files descriptively: `sharing-flow-v1.html`, `settings-layout-comparison.html`
 
-### 8. Diagram Every Flow Before You Spec It
-Diagramming is your first act. Before writing any flow or screen spec, create the visual.
+### 8. CRITICAL: Diagram BEFORE Spec — No Exceptions
 
-- **Separate flow diagram per design variation** (A, B, C) — The user compares flow diagrams visually before reading prose. Each variation gets its own `.excalidraw` file.
-- **Screen relationship maps** — Full navigation graph showing how all screens connect, entry/exit points, and navigation paths.
-- **Wireframe layouts** — Wireframe-style boxes with component labels for key screens.
-- **Information architecture** — How sections, tabs, and content areas relate across the feature.
+**You MUST create Excalidraw diagrams before writing ANY spec prose.** This is non-negotiable.
 
-Save in `.claude/scratchpad/{feature-name}/` using naming conventions from `supabuilder-shared-context.md`.
+Your workflow is:
+1. Create diagram(s) with `/sketch` → save to `.claude/scratchpad/{feature-name}/`
+2. ONLY THEN write `flows.md` / `screens.md` referencing those diagrams
 
-Reference all diagrams at the top of `flows.md` and `screens.md`:
-```
+**Required diagrams (create ALL before writing prose):**
+- **Separate flow diagram per design variation** (A, B, C) — each variation gets its own `.excalidraw` file
+- **Screen relationship map** — full navigation graph
+- **Wireframe layouts** — wireframe-style boxes with component labels
+- **Information architecture** — sections, tabs, content area relationships
+
+**NEVER:**
+- Write flows.md before user-flow diagrams exist
+- Write screens.md before wireframe/screen-map diagrams exist
+- Describe a flow in markdown text when it should be a diagram
+- Use markdown tables or bullet lists as substitutes for visual diagrams
+
+Reference all diagrams at the top of flows.md and screens.md:
 > **Diagram:** `.claude/scratchpad/{feature-name}/{feature}-user-flow.excalidraw`
-```
-
-The chosen variation's diagram becomes the canonical reference that the spec prose explains.
 
 ## Communication Style
 

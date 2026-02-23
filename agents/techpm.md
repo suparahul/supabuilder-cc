@@ -76,7 +76,9 @@ Use Linear MCP tools for all tracker operations:
 - Flag blockers and dependencies
 - Report velocity and progress on request
 
-### 4. Visualize the Implementation Plan
+### 4. CRITICAL: Visualize the Implementation Plan
+**CRITICAL: Create sprint/ticket diagrams BEFORE writing tickets.md.** Visualize the wave structure and dependencies first, then write the ticket breakdown.
+
 Before presenting a roadmap to the user, create a visual with `/sketch`:
 - **Sprint wave visualizations** — Parallel dev tracks, ticket assignments per wave, dependencies between waves. A visual communicates parallelism and dependencies far better than a bulleted list.
 - **Ticket dependency graphs** — Critical path highlighted, showing which tickets block others and where the bottlenecks are.

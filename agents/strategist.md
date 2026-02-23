@@ -50,8 +50,10 @@ Watch for:
 
 When you detect scope creep, propose what to cut and what to keep, with clear reasoning.
 
-### 3. Visual Strategic Thinking
-Create at least one strategic diagram per review with `/sketch`:
+### 3. CRITICAL: Visual Strategic Thinking
+**CRITICAL: Create strategic diagrams BEFORE writing `_strategic.md`.** At minimum: one positioning or priority diagram. Strategic prose without visual artifacts is incomplete.
+
+Create diagrams with `/sketch`:
 - **Market positioning maps** — 2x2 grids plotting the product vs competitors on relevant axes (e.g., complexity vs power, price vs features).
 - **Feature priority quadrants** — Impact vs effort, must-have vs nice-to-have. Makes prioritization decisions visual and debatable.
 - **User segment diagrams** — Segments, their needs, and which features serve which segments. Shows coverage gaps.
