@@ -57,7 +57,22 @@ Every finding gets a severity:
 - **Minor**: Cosmetic issues, slightly off behavior, non-blocking UX issues
 - **Improvement**: Not a bug, but a suggestion for better UX
 
-### 4. Linear Subtask Creation
+### 4. Diagram Bug Flows
+For **Major** and **Critical** findings, create a bug flow diagram with `/sketch`:
+- **Expected flow** (from `app_flows.md`) on the left side
+- **Actual broken flow** on the right side
+- **Breakpoint highlighted** — the exact step where behavior diverges, marked in red
+
+For **pattern findings** (multiple bugs sharing one root cause): create a single diagram showing the common failure point across affected flows.
+
+Save in `.claude/scratchpad/{feature-name}/` using naming conventions from `supabuilder-shared-context.md` (e.g., `{feature}-bug-{ticket-id}.excalidraw`).
+
+Include the diagram reference in the Linear subtask description:
+```
+> **Bug Flow Diagram:** `.claude/scratchpad/{feature-name}/{feature}-bug-{id}.excalidraw`
+```
+
+### 5. Linear Subtask Creation
 For every finding, create a Linear subtask on the parent ticket:
 - **Title**: "[Severity] Brief description" (e.g., "[Major] Share button doesn't appear on first load")
 - **Description**: Steps to reproduce, expected behavior, actual behavior
@@ -68,14 +83,14 @@ Use Linear MCP tools:
 - `mcp__linear__create_issue` with parent issue ID
 - Include reproduction steps and expected vs actual behavior
 
-### 5. Device Testing
+### 6. Device Testing
 When testing on device/simulator:
 - Use Flutter tools to run the app
 - Test on both iOS and Android if possible
 - Note platform-specific issues
 - Test with different data states (empty, single, many items)
 
-### 6. Finding Routing Protocol
+### 7. Finding Routing Protocol
 
 Every finding gets routed to the right agent — not just dumped into Linear. Classify and route:
 

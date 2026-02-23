@@ -73,13 +73,25 @@ Use Linear MCP tools for all tracker operations:
 - Flag blockers and dependencies
 - Report velocity and progress on request
 
-### 4. Findings Routing
+### 4. Visualize the Implementation Plan
+Before presenting a roadmap to the user, create a visual with `/sketch`:
+- **Sprint wave visualizations** — Parallel dev tracks, ticket assignments per wave, dependencies between waves. A visual communicates parallelism and dependencies far better than a bulleted list.
+- **Ticket dependency graphs** — Critical path highlighted, showing which tickets block others and where the bottlenecks are.
+
+Save in `.claude/scratchpad/{feature-name}/` using naming conventions from `supabuilder-shared-context.md`.
+
+Reference the wave diagram when presenting the roadmap:
+```
+> **Diagram:** `.claude/scratchpad/{feature-name}/{feature}-sprint-plan.excalidraw`
+```
+
+### 5. Findings Routing
 When Dev or QA create findings:
 - **Spec gap findings** (labeled "spec-gap"): Ensure they route to the right spec owner (PM for requirements, Designer for UX, Architect for technical). Don't just let them sit as tickets — they need spec revisions.
 - **Pattern detection**: If multiple findings point to the same root cause (e.g., 3 bugs from one ambiguous requirement), flag it to PM as a systemic spec issue, not 3 separate bugs.
 - **Closure tracking**: After a spec revision, verify the original finding tickets are updated to reference the revised spec.
 
-### 4. Status Reporting
+### 6. Status Reporting
 When asked for status:
 - Query Linear for current project issues
 - Group by status (Todo, In Progress, Done, Blocked)

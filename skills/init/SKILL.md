@@ -84,13 +84,30 @@ When invoked, this skill:
 
    If yes, create `.mcp.json` entries in `.claude/` with placeholder env var instructions.
 
-5. **Welcome Message** — Print (under 20 lines):
+5. **Create Project Diagrams** — After creating the context file, use `/sketch` to create visual artifacts in `.claude/scratchpad/project-overview/`:
+
+   - **Project architecture diagram** — High-level view of the system: major modules/directories, how they connect, external services, database. Anyone new to the project should be able to look at this and understand the system structure.
+   - **Module relationship map** — If `product_specs/` exists with multiple modules, diagram how modules relate to each other (dependencies, shared data, integration points).
+   - **Feature landscape diagram** — What's built vs what's spec'd vs what's planned. A visual status map of the product.
+
+   Reference these diagrams in `.claude/supabuilder-context.md` under a new section:
+   ```markdown
+   ## Visual Overview
+   - Project architecture: `.claude/scratchpad/project-overview/project-architecture.excalidraw`
+   - Module relationships: `.claude/scratchpad/project-overview/module-relationships.excalidraw`
+   - Feature landscape: `.claude/scratchpad/project-overview/feature-landscape.excalidraw`
+   ```
+
+   Skip any diagram that doesn't apply (e.g., no module map if there's only one module or no `product_specs/`).
+
+6. **Welcome Message** — Print (under 20 lines):
    ```
    ✅ Supabuilder initialized!
 
    Your project context is ready. You now have:
    - `.claude/supabuilder-context.md` — Project awareness for agents
    - `.claude/supabuilder-state.json` — Sprint tracking
+   - Diagrams: `.claude/scratchpad/project-overview/` (open in VS Code or browser)
 
    Next step:
    /supabuilder:start

@@ -102,15 +102,24 @@ You:  "I've been thinking about adding a way for people to share
 →  The cycle continues until it's right
 ```
 
-## Design Exploration
+## Visual-First System
 
-The Designer doesn't just describe UX — they make you experience it:
+Supabuilder is diagramming-first. Every agent creates visual artifacts as a primary output — diagrams come before or alongside spec prose, not after.
 
-- **HTML prototypes** in `.claude/scratchpad/` — open in your browser, compare variations side by side
-- **Excalidraw diagrams** via `/sketch` — flow diagrams, wireframes, architecture visuals you can co-edit
+- **PM** diagrams user journeys and feature scope trees before writing functional requirements
+- **Designer** creates a separate flow diagram for each design variation — you compare visually before choosing
+- **Architect** diagrams system architecture and data flow before writing the technical spec
+- **Strategist** creates market positioning maps and feature priority quadrants during strategic review
+- **TechPM** visualizes sprint waves and ticket dependencies before presenting the roadmap
+- **Dev** references architecture diagrams during code review and creates visual diffs when proposing spec changes
+- **QA** diagrams bug flows (expected vs actual) for Major and Critical findings
+
+`/supabuilder:init` produces project overview diagrams — architecture, module relationships, and feature landscape — so anyone can visually understand the system from day one. Sprint kickoff (`/supabuilder:start`, `/supabuilder:sprint`) shows a visual plan before any agent starts working.
+
+All diagrams are Excalidraw files in `.claude/scratchpad/` — open in VS Code or browser, co-edit, and agents read your changes.
+
+- **HTML prototypes** in `.claude/scratchpad/` — open in your browser, compare design variations side by side
 - **Inline comparisons** via AskUserQuestion — quick A/B decisions without leaving Claude Code
-
-Agents create diagrams naturally during their work. The Architect draws system diagrams. The PM maps user journeys. The Designer sketches flows. You annotate, rearrange, save — and they read your changes and respond.
 
 ## Commands
 

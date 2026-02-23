@@ -90,6 +90,8 @@ When invoked:
 
    IMPORTANT: Read agent_rules/ to understand THIS project's conventions. Don't assume a specific framework — check what the project actually uses and review against those patterns.
 
+   Before reviewing, check .claude/scratchpad/{feature-name}/ for architecture diagrams. Use them as visual reference during review. When proposing spec changes to Architect, create a diagram with /sketch showing the proposed alternative.
+
    Review the code:
    - Check all files in technical_spec.md file manifest exist
    - Verify patterns match agent_rules/ conventions
@@ -120,6 +122,8 @@ When invoked:
    - product_specs/{module}/functional_requirements.md (acceptance criteria)
    - product_specs/{module}/logic_and_constraints.md (business rules)
    - agents/supabuilder-shared-context.md (routing protocols)
+
+   For Major and Critical findings, use /sketch to create a bug flow diagram showing expected path alongside actual broken path, with breakpoint highlighted. Include diagram references in Linear subtask descriptions.
 
    Test as a REAL USER:
    - Walk through EVERY flow from app_flows.md

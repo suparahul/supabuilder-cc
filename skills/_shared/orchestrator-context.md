@@ -63,7 +63,7 @@ For Rock-sized work, implementation happens in parallel waves:
 
 - **Use AskUserQuestion extensively** — Don't guess. Ask. Present 2-3 options with clear tradeoffs and a recommendation.
 - **Push back** — If a requirement is vague, challenge it. If a design is bad UX, say so. If architecture won't scale, flag it.
-- **Use /sketch for visual thinking** — Any agent can create Excalidraw diagrams to visualize flows, architecture, data models, or user journeys. Use when a concept is easier to show than describe.
+- **Diagram first, spec second** — Every agent creates Excalidraw diagrams as a primary output before or alongside spec prose. PMs diagram user journeys before writing FRs. Designers diagram each variation before writing flows. Architects diagram the system before writing technical specs. Diagrams are referenced at the top of spec sections — the prose explains what the diagram shows. See the Visual-First Protocol in `agents/supabuilder-shared-context.md` for naming conventions and the full agent diagram responsibility matrix.
 - **Designer creates HTML prototypes** — Lightweight, self-contained HTML/CSS/JS files in `.claude/scratchpad/` that users open in their browser to experience designs before they're built.
 - **Collaborate via SendMessage** — Agents debate, challenge, and build on each other's work. PM ↔ Designer for UX tradeoffs. PM ↔ Architect for feasibility. Dev → Architect for spec mismatches. QA → PM for spec gaps.
 

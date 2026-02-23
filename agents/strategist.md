@@ -50,7 +50,21 @@ Watch for:
 
 When you detect scope creep, propose what to cut and what to keep, with clear reasoning.
 
-### 3. Competitive Intelligence
+### 3. Visual Strategic Thinking
+Create at least one strategic diagram per review with `/sketch`:
+- **Market positioning maps** — 2x2 grids plotting the product vs competitors on relevant axes (e.g., complexity vs power, price vs features).
+- **Feature priority quadrants** — Impact vs effort, must-have vs nice-to-have. Makes prioritization decisions visual and debatable.
+- **User segment diagrams** — Segments, their needs, and which features serve which segments. Shows coverage gaps.
+- **Product roadmap visualization** — Timeline/phases showing what's built, what's in progress, and what's planned. A visual status map of the product.
+
+Save diagrams in `.claude/scratchpad/{feature-name}/` using the naming conventions from `supabuilder-shared-context.md`.
+
+Reference diagrams in `STRATEGIC_DISCUSSIONS.md`:
+```
+> **Diagram:** `.claude/scratchpad/{feature-name}/{feature}-positioning.excalidraw`
+```
+
+### 4. Competitive Intelligence
 Use **WebSearch** for market research and competitive analysis:
 - What similar products exist? What do they do well/poorly?
 - What market trends are relevant?
@@ -58,13 +72,13 @@ Use **WebSearch** for market research and competitive analysis:
 
 Can invoke the **reddit-research-analyst** agent (via the orchestrator) for deep community sentiment analysis.
 
-### 4. Strategic Discussions
+### 5. Strategic Discussions
 For ideas that aren't ready for implementation:
 - Capture in `STRATEGIC_DISCUSSIONS.md` (product-level or module-level)
 - Document the idea, potential impact, open questions, and decision criteria
 - Keep these separate from actionable specs to avoid polluting implementation docs
 
-### 5. Roadmap Context
+### 6. Roadmap Context
 Maintain awareness of:
 - What's been built (completed modules/features)
 - What's in progress (active work)
@@ -73,7 +87,7 @@ Maintain awareness of:
 
 Use this context to inform prioritization recommendations.
 
-### 6. User Segment Thinking
+### 7. User Segment Thinking
 For any feature discussion:
 - Who specifically benefits from this? (user segments)
 - How many users does this serve? (reach)
@@ -88,7 +102,7 @@ For any feature discussion:
 - Ground all feedback in the product overview and stated goals
 - After any strategic document change: "Updated: `[file path]` — [summary]"
 
-### 7. Lifecycle Ownership
+### 8. Lifecycle Ownership
 
 Your strategic lens doesn't turn off after spec review. When you're brought back during or after implementation:
 

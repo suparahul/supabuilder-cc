@@ -80,7 +80,16 @@ Write to `.claude/supabuilder-state.json`:
 }
 ```
 
-### Phase 4: Spawn PM Agent
+### Phase 4: Create Sprint Plan Diagram
+
+After classifying work size and creating the sprint entry, use `/sketch` to create a sprint plan diagram in `.claude/scratchpad/{feature-name}/`:
+- Shows the phase progression (requirements → design → architecture → tickets → build → review → test)
+- Shows which agents are involved at each phase
+- For Rock: shows the full pipeline. For Pebble: shows the subset. For Sand: shows the direct route.
+
+Present this diagram to the user: "Here's how we'll approach this:" — gives them a visual roadmap before any agent starts working.
+
+### Phase 5: Spawn PM Agent
 
 Call Task tool with:
 - `subagent_type: pm`
@@ -122,7 +131,7 @@ You own the "what" and "why." Don't transcribe — think deeply. Push back when 
 
 4. **Think holistically** — Check for impacts on existing modules, shared business rules, data model needs.
 
-5. **Create visual aids** — If a flow is complex, use /sketch to create an Excalidraw diagram showing the user journey before writing the spec.
+5. **Diagram first, spec second** — Before writing FRs, use /sketch to diagram the user journey — entry points, happy path, error branches, exit points. Reference this diagram at the top of functional_requirements.md. If the feature has sub-capabilities, also create a feature scope tree. Diagrams are your first output.
 
 Write to: product_specs/{module-name}/
 - _module_overview.md
@@ -132,7 +141,7 @@ Write to: product_specs/{module-name}/
 After you write requirements, ask the user: "Are these requirements complete? Want to refine anything before we bring in the Designer?"
 ```
 
-### Phase 5: Wait for PM Completion
+### Phase 6: Wait for PM Completion
 
 PM agent will:
 - Define functional requirements (FR-001, FR-002, ...)
@@ -142,7 +151,7 @@ PM agent will:
 
 Present PM's recommendations to user. Ask: "Ready for design exploration, or want to refine requirements first?"
 
-### Phase 6: Spawn Designer (if Rock/Pebble)
+### Phase 7: Spawn Designer (if Rock/Pebble)
 
 When user approves requirements, spawn Designer:
 
@@ -171,10 +180,7 @@ You own the "how" of the user experience. Fight for the user — challenge requi
 
 2. **Create lightweight HTML prototypes** — Build self-contained HTML/CSS/JS files (Tailwind preferred) in .claude/scratchpad/{feature-name}/ that the user can open in their browser to experience the design before it's built. Include all visual states (use tabs/buttons to toggle between states). Tell the user: "Open this in your browser: .claude/scratchpad/{feature-name}/{prototype-name}.html"
 
-3. **Create flow diagrams with /sketch** — Use the sketch skill to create Excalidraw diagrams showing:
-   - User flow diagrams (screens connected by arrows)
-   - Screen layouts (wireframe-style)
-   - Information architecture
+3. **DIAGRAM EVERY VARIATION FIRST** — Use /sketch to create a separate flow diagram for each design variation (A, B, C). The user compares flow diagrams visually before choosing a direction. Also create screen relationship maps. Reference all diagrams at the top of app_flows.md and screens_and_components.md.
 
 4. **Present options visually** — Use AskUserQuestion with markdown previews to show ASCII mockups of different layouts side-by-side. Let the user compare and choose.
 
@@ -194,7 +200,7 @@ Write to: product_specs/{module-name}/
 After presenting variations, ask the user: "Which direction resonates? I can refine from here before we bring in the Architect."
 ```
 
-### Phase 7: Spawn Architect (if Rock/Pebble)
+### Phase 8: Spawn Architect (if Rock/Pebble)
 
 When design is chosen:
 
@@ -225,7 +231,7 @@ You own the "how" of the technical system. Have opinions — push back on infeas
 
 3. **Design database schema** — Migration SQL or equivalent for the project's database. Include constraints, indexes, RLS policies.
 
-4. **Design system architecture** — How this integrates with existing code. Use /sketch to create architecture diagrams showing data flow and component relationships.
+4. **DIAGRAM THE ARCHITECTURE FIRST** — Use /sketch to create (a) system architecture diagram showing all components and connections, (b) data flow diagram showing how data moves. For complex features, also ER diagram and sequence diagrams. These are your first output. Reference them at the top of each section in technical_spec.md.
 
 5. **Create file manifest** — Complete list of files to create/modify.
 
@@ -245,7 +251,7 @@ Write to: product_specs/{module-name}/
 Present technical decisions to user. Ask: "Architecture looks solid? Ready for implementation tickets?"
 ```
 
-### Phase 8: Spawn TechPM (if Rock/Pebble)
+### Phase 9: Spawn TechPM (if Rock/Pebble)
 
 When architecture is approved:
 
@@ -295,7 +301,7 @@ Turn specs into trackable, actionable work.
 Present roadmap to user. Ask: "Ready to start building? I can coordinate dev agents to work on this in parallel."
 ```
 
-### Phase 9: Build Phase (Dev Swarm)
+### Phase 10: Build Phase (Dev Swarm)
 
 When tickets are ready and user says "let's build":
 
@@ -323,7 +329,7 @@ Wave 3 (integration):
 
 After all waves complete, offer: "/supabuilder:review to bring in code review + QA"
 
-### Phase 10: Hand Off
+### Phase 11: Hand Off
 
 When all agents complete:
 

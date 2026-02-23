@@ -74,7 +74,12 @@ When invoked with `<feature-name>`:
    }
    ```
 
-2. Spawn **Strategist** first:
+2. **Create Sprint Plan Diagram** — Use `/sketch` to create a sprint plan diagram in `.claude/scratchpad/{feature-name}/`:
+   - Shows the full Rock pipeline with all 7 agents and phase progression (strategy → requirements → design → architecture → tickets → build → review → test)
+   - Shows which agents are involved at each phase and what each phase produces
+   - Present to user: "Here's how we'll approach this:"
+
+3. Spawn **Strategist** first:
    ```
    You are Strategist for: {Feature Name}
 
@@ -87,12 +92,12 @@ When invoked with `<feature-name>`:
    - Should we build this at all? Be honest. Kill ideas that don't serve the product.
 
    Use AskUserQuestion to validate: "Here's my strategic assessment. Does this direction feel right?"
-   Use /sketch to create a positioning diagram if it helps clarify where this fits.
+   Use /sketch to create a market positioning diagram (2x2 grid: product vs competitors). Also create a feature priority quadrant if evaluating multiple features. Reference diagrams in STRATEGIC_DISCUSSION.md.
 
    Write to: product_specs/{module}/STRATEGIC_DISCUSSION.md
    ```
 
-3. After Strategist → Spawn **PM**:
+4. After Strategist → Spawn **PM**:
    ```
    You are PM for: {Feature Name}
 
@@ -109,7 +114,7 @@ When invoked with `<feature-name>`:
    - Empty, error, loading, offline states?
    - If they create data, can they view/edit/delete it?
 
-   Use /sketch for complex user journeys before writing the spec.
+   Before writing specs, use /sketch to diagram the user journey — entry points, happy path, error branches, exit points. Create a feature scope tree if the feature has sub-capabilities. Reference diagrams at the top of functional_requirements.md. Diagram first, spec second.
 
    Write to: product_specs/{module}/
    - _module_overview.md
@@ -117,7 +122,7 @@ When invoked with `<feature-name>`:
    - logic_and_constraints.md
    ```
 
-4. After PM → Spawn **Designer**:
+5. After PM → Spawn **Designer**:
    ```
    You are Designer for: {Feature Name}
 
@@ -127,7 +132,7 @@ When invoked with `<feature-name>`:
 
    CREATE HTML PROTOTYPES: Build lightweight, self-contained HTML/CSS/JS files (Tailwind preferred) in .claude/scratchpad/{feature-name}/ that the user can open in their browser. Include all visual states. Tell the user exactly how to open them.
 
-   CREATE EXCALIDRAW DIAGRAMS: Use /sketch to create flow diagrams, screen layouts, information architecture.
+   DIAGRAM EVERY VARIATION: Use /sketch to create a separate flow diagram for each design variation (A, B, C). The user compares flow diagrams visually before choosing. Also create screen relationship maps. Reference all diagrams at the top of app_flows.md and screens_and_components.md.
 
    USE AskUserQuestion with markdown previews to show ASCII mockups of different layouts. Let the user compare and choose visually.
 
@@ -140,7 +145,7 @@ When invoked with `<feature-name>`:
    - screens_and_components.md
    ```
 
-5. After Designer → Spawn **Architect**:
+6. After Designer → Spawn **Architect**:
    ```
    You are Architect for: {Feature Name}
 
@@ -151,7 +156,7 @@ When invoked with `<feature-name>`:
    Design technical system:
    - Data models (using project's conventions)
    - Database schema with migration SQL
-   - System architecture — use /sketch for architecture diagrams
+   - DIAGRAM THE ARCHITECTURE FIRST: Use /sketch to create system architecture diagram, data flow diagram, and (for complex features) ER diagram and sequence diagrams. These are your first output. Reference at top of each section in technical_spec.md.
    - File manifest (complete list of files to create/modify)
    - Implementation sequence (ordered with dependencies)
 
@@ -161,7 +166,7 @@ When invoked with `<feature-name>`:
    Write to: product_specs/{module}/technical_spec.md
    ```
 
-6. After Architect → Spawn **TechPM**:
+7. After Architect → Spawn **TechPM**:
    ```
    You are TechPM for: {Feature Name}
 
@@ -180,10 +185,12 @@ When invoked with `<feature-name>`:
 
    Each ticket: title, description, acceptance criteria, spec references, effort estimate (S/M/L), wave assignment.
 
+   Create a wave visualization diagram with /sketch showing parallel dev tracks, ticket assignments per wave, and cross-wave dependencies. Reference it when presenting the roadmap to the user.
+
    Present roadmap to user.
    ```
 
-7. **Present summary to user**:
+8. **Present summary to user**:
    - Feature is fully spec'd
    - All decisions documented
    - Ready to build or review specs

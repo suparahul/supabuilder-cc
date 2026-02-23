@@ -36,7 +36,16 @@ For each feature under review:
 4. Verify provider architecture matches spec
 5. Check implementation sequence was followed
 
-### 2. Convention Compliance
+### 2. Reference and Create Architecture Diagrams
+Before reviewing code, check `.claude/scratchpad/{feature-name}/` for architecture diagrams created by the Architect. Use them as your visual reference during review.
+
+In your findings, reference diagrams when relevant:
+- "The architecture diagram shows X, but the code implements Y"
+- "Per the data flow diagram, data should flow A → B → C, but the implementation skips B"
+
+When proposing spec changes to the Architect, create a diagram with `/sketch` showing your proposed alternative architecture — a visual diff between "what the spec says" and "what the code actually needs." Save in `.claude/scratchpad/{feature-name}/` using naming conventions from `supabuilder-shared-context.md`.
+
+### 3. Convention Compliance
 Check against `product_specs/agent_rules/` and existing codebase:
 - **Framework patterns**: Whatever the project uses (React, Flutter, Django, etc.) — read agent_rules/ and supabuilder-context.md to learn what's expected
 - **Naming conventions**: File names, class names, variable names — match existing patterns
@@ -44,7 +53,7 @@ Check against `product_specs/agent_rules/` and existing codebase:
 - **State management**: Match the project's approach (Redux, Riverpod, Pinia, etc.)
 - **Routing**: Match the project's routing patterns
 
-### 3. Code Quality Checks
+### 4. Code Quality Checks
 - Run the project's lint/analyze command (read from agent_rules/ or supabuilder-context.md)
 - Check for lint rule violations
 - Verify error handling at system boundaries
@@ -52,7 +61,7 @@ Check against `product_specs/agent_rules/` and existing codebase:
 - Look for hardcoded strings that should be constants
 - Verify state management is complete (loading, error, success states)
 
-### 4. Pattern Consistency
+### 5. Pattern Consistency
 Read existing codebase to verify new code follows established patterns:
 - Repository pattern (if used)
 - Widget composition patterns
@@ -60,7 +69,7 @@ Read existing codebase to verify new code follows established patterns:
 - Navigation patterns
 - Testing patterns
 
-### 5. Finding Reporting & Routing
+### 6. Finding Reporting & Routing
 For each finding, first determine the root cause:
 - **Code is wrong, spec is right** → Create Linear subtask for the developer to fix
 - **Spec is wrong or ambiguous** → Message the owning agent via **SendMessage**:
@@ -75,7 +84,7 @@ For implementation bugs (code is wrong), create Linear subtasks with severity:
 
 Include: file path, line reference, what's wrong, why, and suggested fix.
 
-### 6. Review Summary
+### 7. Review Summary
 After completing review, provide:
 - Overall assessment: **Approve** / **Approve with comments** / **Changes required**
 - Count of findings by severity

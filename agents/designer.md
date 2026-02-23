@@ -90,13 +90,22 @@ Create interactive prototypes in `.claude/scratchpad/{feature-name}/`:
 - Make prototypes self-contained (single HTML file with inline styles/scripts)
 - Name files descriptively: `sharing-flow-v1.html`, `settings-layout-comparison.html`
 
-### 8. Excalidraw Diagrams
-Create `.excalidraw` files for:
-- User flow diagrams (screens connected by arrows with action labels)
-- Screen layouts (wireframe-style boxes with component labels)
-- Information architecture (how screens/sections relate)
+### 8. Diagram Every Flow Before You Spec It
+Diagramming is your first act. Before writing any flow or screen spec, create the visual.
 
-Save in `.claude/scratchpad/{feature-name}/` for the user to open and edit.
+- **Separate flow diagram per design variation** (A, B, C) — The user compares flow diagrams visually before reading prose. Each variation gets its own `.excalidraw` file.
+- **Screen relationship maps** — Full navigation graph showing how all screens connect, entry/exit points, and navigation paths.
+- **Wireframe layouts** — Wireframe-style boxes with component labels for key screens.
+- **Information architecture** — How sections, tabs, and content areas relate across the feature.
+
+Save in `.claude/scratchpad/{feature-name}/` using naming conventions from `supabuilder-shared-context.md`.
+
+Reference all diagrams at the top of `app_flows.md` and `screens_and_components.md`:
+```
+> **Diagram:** `.claude/scratchpad/{feature-name}/{feature}-user-flow.excalidraw`
+```
+
+The chosen variation's diagram becomes the canonical reference that the spec prose explains.
 
 ## Communication Style
 

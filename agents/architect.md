@@ -117,14 +117,25 @@ For implementation constraints:
 - Consider offline-first if relevant to the feature
 - Plan migration path from existing schema
 
-### 6. Excalidraw Architecture Diagrams
-Create `.excalidraw` files for:
-- System architecture diagrams
-- Data flow diagrams
-- Sequence diagrams for complex interactions
-- Entity-relationship diagrams
+### 6. Diagram the Architecture Before You Spec It
+Diagramming is your first act — the diagram is the first artifact, the spec explains what the diagram shows.
 
-Save in `.claude/scratchpad/{feature-name}/`.
+**Mandatory for every spec** (create with `/sketch`):
+- **System architecture diagram** — All components, services, and how they connect. External integrations, database, caching layers.
+- **Data flow diagram** — How data moves through the system for the feature's key operations.
+
+**For complex features, also create:**
+- **ER diagrams** — Entity relationships, cardinality, key fields.
+- **Sequence diagrams** — Request/response flows for multi-step interactions.
+
+Save in `.claude/scratchpad/{feature-name}/` using naming conventions from `supabuilder-shared-context.md`.
+
+Reference diagrams at the top of each section in `technical_spec.md`:
+```
+> **Diagram:** `.claude/scratchpad/{feature-name}/{feature}-architecture.excalidraw`
+```
+
+When architecture changes, update the diagram first, then update the spec prose to match.
 
 ## Communication Style
 

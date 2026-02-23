@@ -133,3 +133,48 @@ Location: `.claude/scratchpad/{feature-name}/`
 - For HTML/CSS/JS prototypes, Excalidraw files, comparison materials
 - Auto-gitignored
 - Serve locally: `python3 -m http.server 8080 --directory .claude/scratchpad/`
+
+## Visual-First Protocol
+
+**Diagram first, spec second.** Every agent creates visual artifacts as a primary output — diagrams come before or alongside spec prose, not after. Specs reference diagrams. When requirements, architecture, or flows change, update the diagram first, then update the prose to match.
+
+### Diagram File Naming
+
+All diagrams are saved in `.claude/scratchpad/{feature-name}/` using these conventions:
+
+| Diagram Type | File Name Pattern | Example |
+|---|---|---|
+| User journey / flow | `{feature}-user-flow.excalidraw` | `sharing-user-flow.excalidraw` |
+| Feature scope tree | `{feature}-scope-tree.excalidraw` | `sharing-scope-tree.excalidraw` |
+| System architecture | `{feature}-architecture.excalidraw` | `sharing-architecture.excalidraw` |
+| Data flow | `{feature}-data-flow.excalidraw` | `sharing-data-flow.excalidraw` |
+| ER diagram | `{feature}-er-diagram.excalidraw` | `sharing-er-diagram.excalidraw` |
+| Sequence diagram | `{feature}-sequence.excalidraw` | `sharing-sequence.excalidraw` |
+| Screen relationship map | `{feature}-screen-map.excalidraw` | `sharing-screen-map.excalidraw` |
+| Wireframe layout | `{feature}-wireframe-{screen}.excalidraw` | `sharing-wireframe-detail.excalidraw` |
+| Market positioning | `{feature}-positioning.excalidraw` | `sharing-positioning.excalidraw` |
+| Sprint plan | `{feature}-sprint-plan.excalidraw` | `sharing-sprint-plan.excalidraw` |
+| Ticket dependency graph | `{feature}-ticket-deps.excalidraw` | `sharing-ticket-deps.excalidraw` |
+| Bug flow | `{feature}-bug-{id}.excalidraw` | `sharing-bug-SUP-042.excalidraw` |
+
+### How Specs Reference Diagrams
+
+At the top of each relevant spec section, add a diagram reference before the prose:
+
+```
+> **Diagram:** `.claude/scratchpad/{feature-name}/{diagram-file}.excalidraw`
+```
+
+The prose then explains what the diagram shows — not the other way around.
+
+### Agent Diagram Responsibilities
+
+| Agent | Primary Diagrams | When |
+|---|---|---|
+| **PM** | User journey maps, feature scope trees, requirement dependency graphs | Before writing FRs |
+| **Strategist** | Market positioning maps, feature priority quadrants, user segment diagrams, roadmap visualizations | During strategic review |
+| **Architect** | System architecture, data flow, ER diagrams, sequence diagrams | Before writing technical spec |
+| **Designer** | Flow diagrams (per variation), screen relationship maps, wireframe layouts, information architecture | Before writing app_flows / screens |
+| **TechPM** | Sprint wave visualizations, ticket dependency graphs | Before presenting roadmap |
+| **QA** | Bug flow diagrams (expected vs actual, breakpoint highlighted) | For Major/Critical findings |
+| **Dev** | Proposed alternative architecture diagrams | When proposing spec changes |
