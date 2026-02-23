@@ -28,7 +28,7 @@ This spawns **Dev** (code review) → **QA** (user perspective testing).
 
 ### Dev Review (First)
 
-Dev reads the feature's `technical_spec.md` and reviews the code:
+Dev reads the feature's `architecture.md` and `manifest.md` and reviews the code:
 - Is implementation matching spec?
 - Are conventions followed (Riverpod, Freezed, GoRouter, etc.)?
 - Is error handling complete?
@@ -45,8 +45,8 @@ If **spec mismatch** (not code bug), Dev messages **Architect** to revise spec.
 
 QA walks through the feature as a real user:
 - Does it work end-to-end?
-- Do flows from `app_flows.md` actually work?
-- Do acceptance criteria from `functional_requirements.md` pass?
+- Do flows from `flows.md` actually work?
+- Do acceptance criteria from `requirements.md` pass?
 - What about edge cases, error states, empty states?
 - How does it feel? (timing, clarity, UX intuitiveness)
 
@@ -83,19 +83,21 @@ When invoked:
    Read (skip if missing):
    - CLAUDE.md (project conventions)
    - .claude/supabuilder-context.md (project context, tech stack)
-   - product_specs/{module}/technical_spec.md (what was designed)
-   - product_specs/agent_rules/ (coding guidelines for THIS project)
+   - product_specs/{module}/architecture.md (system design)
+   - product_specs/{module}/manifest.md (file manifest)
+   - product_specs/{module}/data_models.md (expected models)
+   - product_specs/_rules/ (coding guidelines for THIS project)
    - .claude/napkin.md (known patterns and corrections)
    - agents/supabuilder-shared-context.md (routing protocols)
 
-   IMPORTANT: Read agent_rules/ to understand THIS project's conventions. Don't assume a specific framework — check what the project actually uses and review against those patterns.
+   IMPORTANT: Read _rules/ to understand THIS project's conventions. Don't assume a specific framework — check what the project actually uses and review against those patterns.
 
    Before reviewing, check .claude/scratchpad/{feature-name}/ for architecture diagrams. Use them as visual reference during review. When proposing spec changes to Architect, create a diagram with /sketch showing the proposed alternative.
 
    Review the code:
-   - Check all files in technical_spec.md file manifest exist
-   - Verify patterns match agent_rules/ conventions
-   - Run the project's lint/analyze commands (read from agent_rules/ or supabuilder-context.md)
+   - Check all files in manifest.md exist
+   - Verify patterns match _rules/ conventions
+   - Run the project's lint/analyze commands (read from _rules/ or supabuilder-context.md)
    - Verify state management is complete (loading, error, success states)
    - Check error handling at system boundaries
 
@@ -117,22 +119,22 @@ When invoked:
 
    Read (skip if missing):
    - .claude/supabuilder-context.md (project context)
-   - product_specs/{module}/app_flows.md (all flows to walk through)
-   - product_specs/{module}/screens_and_components.md (expected screens)
-   - product_specs/{module}/functional_requirements.md (acceptance criteria)
-   - product_specs/{module}/logic_and_constraints.md (business rules)
+   - product_specs/{module}/flows.md (all flows to walk through)
+   - product_specs/{module}/screens.md (expected screens)
+   - product_specs/{module}/requirements.md (acceptance criteria)
+   - product_specs/{module}/constraints.md (business rules)
    - agents/supabuilder-shared-context.md (routing protocols)
 
    For Major and Critical findings, use /sketch to create a bug flow diagram showing expected path alongside actual broken path, with breakpoint highlighted. Include diagram references in Linear subtask descriptions.
 
    Test as a REAL USER:
-   - Walk through EVERY flow from app_flows.md
+   - Walk through EVERY flow from flows.md
    - First-time user perspective: Is it obvious what to do? Are empty states helpful?
    - Happy path: Does the core flow feel smooth?
    - Error recovery: When things go wrong, is it clear what happened and how to fix?
    - Edge cases: Long text, rapid actions, no network, extreme inputs
    - Feel: Does interaction timing feel right? Transitions smooth?
-   - Verify EVERY acceptance criterion from functional_requirements.md
+   - Verify EVERY acceptance criterion from requirements.md
 
    For each finding, determine ROOT CAUSE and route:
    - Missing requirement (spec didn't cover this) → Message PM via SendMessage + label "spec-gap"

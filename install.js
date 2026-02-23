@@ -123,6 +123,7 @@ console.log('  All commands:');
 console.log('    /supabuilder:init       Scan project, create context');
 console.log('    /supabuilder:start      Guided product ideation');
 console.log('    /supabuilder:sprint     Full team sprint');
+console.log('    /supabuilder:develop    Build from tickets (dev waves + QA)');
 console.log('    /supabuilder:review     Dev + QA review');
 console.log('    /supabuilder:status     Sprint progress');
 console.log('    /supabuilder:mode       Cost & debate settings');

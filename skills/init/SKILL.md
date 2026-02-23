@@ -41,7 +41,51 @@ When invoked, this skill:
    - Read `.env.example` if exists
    - Check git status (current branch, recent commits)
 
-2. **Create Context File** — Write to `.claude/supabuilder-context.md`:
+2. **Create Product Specs Directory Scaffold:**
+
+   **Case 1: No `product_specs/` exists (new project or first init):**
+   ```
+   Create:
+     product_specs/
+     product_specs/_overview.md (stub: "# Product Overview\nCreated by /supabuilder:init. Strategist populates during first sprint.")
+     product_specs/_technical.md (stub: "# Technical Overview\nArchitect populates during first sprint.")
+     product_specs/_rules/ (with README.md: "Add coding guidelines, conventions, and tech stack rules here. All agents read these.")
+     product_specs/_shared/ (empty dir)
+   ```
+
+   **Case 2: Code exists but no `product_specs/` (existing codebase, first init):**
+   ```
+   1. Create base scaffold (same as Case 1)
+   2. Scan codebase for feature/module boundaries:
+      - Look for src/features/*, lib/features/*, app/modules/*, pages/*, routes/*
+      - Look for directory patterns that suggest modules (auth/, settings/, dashboard/)
+      - Read package.json/pubspec.yaml for feature-related dependencies
+   3. For each detected module, create:
+      product_specs/{module-name}/
+      product_specs/{module-name}/_overview.md
+        → "# {Module Name}\nDetected from: {source path}\nStatus: Existing code, needs spec."
+   4. List all detected modules in product_specs/_overview.md under a "## Detected Modules" section
+   ```
+
+   **Case 3: `product_specs/` already exists:**
+   - Check if it uses old structure (`functional_requirements.md`, `technical_spec.md`, `_module_overview.md`, etc.)
+   - If old structure detected: warn user that Supabuilder now uses the new structure. List the file name changes:
+     - `_module_overview.md` → `_overview.md`
+     - `functional_requirements.md` → `requirements.md`
+     - `logic_and_constraints.md` → `constraints.md`
+     - `app_flows.md` → `flows.md`
+     - `screens_and_components.md` → `screens.md`
+     - `technical_spec.md` → split into `architecture.md`, `data_models.md`, `schema.sql`, `manifest.md`, `sequence.md`
+     - `implementation_tickets.md` → `tickets.md` + `tickets/wave_N.md`
+     - `STRATEGIC_DISCUSSION.md` → `_strategic.md`
+     - `00_product_overview.md` → `_overview.md` (root)
+     - `01_technical_overview.md` → `_technical.md` (root)
+     - `agent_rules/` → `_rules/`
+     - `shared/` → `_shared/`
+   - Do NOT auto-migrate. The user restructures manually.
+   - If new structure or empty: skip, don't overwrite
+
+3. **Create Context File** — Write to `.claude/supabuilder-context.md`:
    ```markdown
    # Project Context — {detected project name}
    Generated: {timestamp}
@@ -69,7 +113,7 @@ When invoked, this skill:
    - Recent commits: {last 3}
    ```
 
-3. **Create State File** — Write to `.claude/supabuilder-state.json` (if doesn't exist):
+4. **Create State File** — Write to `.claude/supabuilder-state.json` (if doesn't exist):
    ```json
    {
      "active_sprints": [],
@@ -78,13 +122,13 @@ When invoked, this skill:
    }
    ```
 
-4. **Optional MCP Setup** — Ask user via AskUserQuestion:
+5. **Optional MCP Setup** — Ask user via AskUserQuestion:
    - "Configure Linear for ticket tracking?"
    - "Add Reddit for community research?"
 
    If yes, create `.mcp.json` entries in `.claude/` with placeholder env var instructions.
 
-5. **Create Project Diagrams** — After creating the context file, use `/sketch` to create visual artifacts in `.claude/scratchpad/project-overview/`:
+6. **Create Project Diagrams** — After creating the context file, use `/sketch` to create visual artifacts in `.claude/scratchpad/project-overview/`:
 
    - **Project architecture diagram** — High-level view of the system: major modules/directories, how they connect, external services, database. Anyone new to the project should be able to look at this and understand the system structure.
    - **Module relationship map** — If `product_specs/` exists with multiple modules, diagram how modules relate to each other (dependencies, shared data, integration points).
@@ -100,14 +144,17 @@ When invoked, this skill:
 
    Skip any diagram that doesn't apply (e.g., no module map if there's only one module or no `product_specs/`).
 
-6. **Welcome Message** — Print (under 20 lines):
+7. **Welcome Message** — Print (under 20 lines):
    ```
    ✅ Supabuilder initialized!
 
    Your project context is ready. You now have:
    - `.claude/supabuilder-context.md` — Project awareness for agents
    - `.claude/supabuilder-state.json` — Sprint tracking
+   - `product_specs/` — Spec directory with structure scaffold
    - Diagrams: `.claude/scratchpad/project-overview/` (open in VS Code or browser)
+
+   {If modules were detected: "Detected modules: {list}. Each has a placeholder _overview.md."}
 
    Next step:
    /supabuilder:start

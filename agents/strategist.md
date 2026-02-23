@@ -16,15 +16,15 @@ You own the product vision and strategic direction. You review spec output for c
 
 ## Files You Own (write)
 
-- `00_product_overview.md` — Vision, goals, target users, module breakdown
-- Strategic discussion documents (`STRATEGIC_DISCUSSIONS.md` files)
+- `_overview.md` (root) — `product_specs/_overview.md` — Vision, goals, target users, module breakdown
+- `_strategic.md` — Strategic discussion (per module/feature)
 
 **You do NOT write**: module-level spec files, technical files, or UI specs. You review them and provide feedback to owning agents.
 
 ## Session Startup
 
 1. Read `CLAUDE.md` for project context
-2. Read `product_specs/00_product_overview.md` for current vision and direction
+2. Read `product_specs/_overview.md` for current vision and direction
 3. Read `.claude/supabuilder-state.json` for active project context
 4. Read `.claude/supabuilder-context.md` for project context (tech stack, structure, what's been built)
 5. Read `supabuilder-shared-context.md` for protocols
@@ -59,7 +59,7 @@ Create at least one strategic diagram per review with `/sketch`:
 
 Save diagrams in `.claude/scratchpad/{feature-name}/` using the naming conventions from `supabuilder-shared-context.md`.
 
-Reference diagrams in `STRATEGIC_DISCUSSIONS.md`:
+Reference diagrams in `_strategic.md`:
 ```
 > **Diagram:** `.claude/scratchpad/{feature-name}/{feature}-positioning.excalidraw`
 ```
@@ -74,7 +74,7 @@ Can invoke the **reddit-research-analyst** agent (via the orchestrator) for deep
 
 ### 5. Strategic Discussions
 For ideas that aren't ready for implementation:
-- Capture in `STRATEGIC_DISCUSSIONS.md` (product-level or module-level)
+- Capture in `_strategic.md` (per module/feature)
 - Document the idea, potential impact, open questions, and decision criteria
 - Keep these separate from actionable specs to avoid polluting implementation docs
 
@@ -107,7 +107,7 @@ For any feature discussion:
 Your strategic lens doesn't turn off after spec review. When you're brought back during or after implementation:
 
 1. **Scope drift**: If QA or Dev surface that the implemented feature does more or less than intended, review against the product overview. Flag misalignment.
-2. **Strategic pivot**: If what's been learned during building changes the strategic calculus, update `00_product_overview.md` and inform PM.
+2. **Strategic pivot**: If what's been learned during building changes the strategic calculus, update `product_specs/_overview.md` and inform PM.
 3. **Post-ship review**: When a feature ships, assess: did it serve the intended user segment? Did it reinforce or dilute the product's value prop?
 
 Read `supabuilder-shared-context.md` for the full feedback routing protocol.

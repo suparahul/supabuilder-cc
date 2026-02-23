@@ -6,22 +6,92 @@ This file is NOT an agent — it contains shared reference material for all team
 
 | File | Owner (writes) | Consumers (reads) |
 |------|---------------|-------------------|
-| `_module_overview.md` | PM | Designer, Strategist, Architect |
-| `functional_requirements.md` | PM | Designer, Architect, TechPM, QA |
-| `logic_and_constraints.md` | PM | Architect, QA |
-| `app_flows.md` | Designer | QA, Dev |
-| `screens_and_components.md` | Designer | Dev |
-| `technical_spec.md` | Architect | Dev, TechPM, QA |
-| `shared/_business_rules.md` | PM | Architect, QA |
-| `shared/_data_models.md` | Architect | PM, Dev |
-| `shared/_database_schema.sql` | Architect | Dev |
-| `shared/_ui_kit.md` | Designer | Dev |
-| `shared/_technical_details.md` | Architect | Dev |
-| `shared/_linear_config.md` | TechPM | — |
-| `00_product_overview.md` | Strategist | PM |
-| `01_technical_overview.md` | Architect | All |
+| `_overview.md` (root) | Strategist | PM, all |
+| `_technical.md` (root) | Architect | All |
+| `_overview.md` (module/feature) | PM | Designer, Strategist, Architect |
+| `requirements.md` | PM | Designer, Architect, TechPM, QA |
+| `constraints.md` | PM | Architect, QA |
+| `flows.md` | Designer | QA, Dev |
+| `screens.md` | Designer | Dev |
+| `architecture.md` | Architect | Dev, TechPM, QA |
+| `data_models.md` | Architect | PM, Dev |
+| `schema.sql` | Architect | Dev |
+| `manifest.md` | Architect | Dev, TechPM |
+| `sequence.md` | Architect | TechPM |
+| `tickets.md` + `tickets/wave_N.md` | TechPM | Dev |
+| `_shared/business_rules.md` | PM | Architect, QA |
+| `_shared/data_models.md` | Architect | PM, Dev |
+| `_shared/schema.sql` | Architect | Dev |
+| `_shared/ui_kit.md` | Designer | Dev |
+| `_shared/technical_details.md` | Architect | Dev |
 
 **Conflict prevention**: If you need changes in a file you don't own, create a task for the owning agent with specific change description. Never write to files you don't own.
+
+## Spec Directory Structure
+
+```
+product_specs/
+├── _overview.md                    ← Strategist: product vision, user segments, module list
+├── _technical.md                   ← Architect: system-wide architecture, tech stack
+├── _rules/                         ← User-maintained: coding guidelines, conventions
+│   └── (user creates files here)
+├── _shared/                        ← Cross-module definitions
+│   ├── data_models.md              ← Architect: shared/global data models
+│   ├── schema.sql                  ← Architect: shared/global database schema
+│   ├── business_rules.md           ← PM: cross-module business rules
+│   ├── ui_kit.md                   ← Designer: design system, components
+│   └── technical_details.md        ← Architect: cross-cutting technical notes
+│
+├── {module}/                       ← Single-feature module (specs directly here)
+│   ├── _overview.md                ← PM: scope, personas, success metrics
+│   ├── requirements.md             ← PM: FRs with ACs (~300 lines)
+│   ├── constraints.md              ← PM: business rules, validation (~200 lines)
+│   ├── flows.md                    ← Designer: final chosen flows (~300 lines)
+│   ├── screens.md                  ← Designer: screen specs, states (~300 lines)
+│   ├── architecture.md             ← Architect: system design (~200 lines)
+│   ├── data_models.md              ← Architect: feature-specific models (~150 lines)
+│   ├── schema.sql                  ← Architect: feature migration (~100 lines)
+│   ├── manifest.md                 ← Architect: files to create/modify (~100 lines)
+│   ├── sequence.md                 ← Architect: build order with deps (~100 lines)
+│   ├── tickets.md                  ← TechPM: ticket index + wave overview (~100 lines)
+│   ├── tickets/                    ← TechPM: tickets split by wave
+│   │   ├── wave_1.md               (~200 lines each)
+│   │   ├── wave_2.md
+│   │   └── wave_3.md
+│   ├── _explorations/              ← Designer: archived design variations
+│   │   ├── variation_a.md
+│   │   └── variation_b.md
+│   └── _strategic.md               ← Strategist: strategic discussion
+│
+├── {multi-feature-module}/         ← Multi-feature module
+│   ├── _overview.md                ← Module-level overview only
+│   ├── {feature-1}/               ← Feature subdir (same structure as above)
+│   │   ├── _overview.md
+│   │   ├── requirements.md
+│   │   └── ...
+│   └── {feature-2}/
+│       └── ...
+│
+└── cross-cutting/                  ← Explicit cross-cutting features
+    ├── {concern}/                  ← e.g., notifications, data-sync
+    │   ├── _overview.md            (describes which modules it touches)
+    │   ├── requirements.md
+    │   └── ...
+    └── ...
+```
+
+### Naming Conventions
+- Module names: kebab-case, descriptive (e.g., `user-auth`, `care-areas`)
+- Feature names: kebab-case (e.g., `food-water`, `grooming`)
+- Single-feature modules: specs directly in module dir (no feature subdir)
+- Multi-feature modules: feature subdirs under module
+- Cross-cutting: `cross-cutting/{concern}/`
+
+## Document Size Guidelines
+
+- Target: no file exceeds ~300 lines (except `screens.md` at ~400)
+- If a file exceeds target, split by feature area or concern
+- Spec files reference each other by path, never duplicate content
 
 ## The Lifecycle Loop
 
@@ -33,10 +103,10 @@ When post-implementation findings surface, route them to the right spec owner:
 
 | Finding Type | Route To | Action |
 |---|---|---|
-| Missing requirement | PM | Update functional_requirements.md or logic_and_constraints.md |
-| UX gap (flow doesn't feel right) | Designer | Update app_flows.md or screens_and_components.md |
-| Technical constraint / architecture issue | Architect | Update technical_spec.md |
-| Scope drift (feature does more/less than intended) | Strategist | Review against 00_product_overview.md |
+| Missing requirement | PM | Update `requirements.md` or `constraints.md` |
+| UX gap (flow doesn't feel right) | Designer | Update `flows.md` or `screens.md` |
+| Technical constraint / architecture issue | Architect | Update `architecture.md` |
+| Scope drift (feature does more/less than intended) | Strategist | Review against `_overview.md` (root) |
 | Implementation bug (code is wrong, spec is right) | Dev/TechPM | Create Linear subtask (not a spec issue) |
 
 ### Specs Are Living Documents
@@ -52,10 +122,15 @@ When an agent updates a spec file based on post-implementation findings, they an
 ### The Loop in Practice
 
 ```
-Spec → Build → Review (Dev) → Test (QA) → Findings surface →
+Spec → Build (per-wave) → Incremental QA (per-wave) → [fix if blocking] →
+  → All waves done → Comprehensive Review (Dev + QA) → Findings surface →
   → Spec gap? → Route to spec owner → Spec revised → Back to Build
   → Implementation bug? → Linear subtask → Dev fixes → Back to Test
 ```
+
+**Build phase** (`/supabuilder:develop`): Dev builders (general-purpose agents) implement tickets in parallel waves. After each wave, incremental QA tests only that wave's acceptance criteria. Blocking findings are fixed before the next wave starts. Non-blocking findings are logged for comprehensive review.
+
+**Review phase** (`/supabuilder:review`): After all waves complete, the `dev` agent does full code review against specs, and QA does comprehensive end-to-end testing of the entire feature.
 
 The orchestrator re-engages spec agents when findings require spec changes. This is not an exception — it's the normal workflow.
 
@@ -84,7 +159,12 @@ The orchestrator re-engages spec agents when findings require spec changes. This
 - **Designer ↔ Architect**: UI implementation constraints. "This animation requires X framework support."
 - **Strategist ↔ PM**: Vision alignment. "Does this feature align with our roadmap?"
 
-**During build/review/test phase (the feedback loop):**
+**During build phase** (`/supabuilder:develop`):
+- **Orchestrator ↔ Dev Builders**: Task assignment, progress tracking, blocker resolution
+- **Orchestrator ↔ QA**: Incremental QA after each wave, blocking/non-blocking classification
+- **QA → PM/Designer/Architect**: Spec gaps found during incremental QA routed to spec owners
+
+**During review/test phase** (`/supabuilder:review` — the feedback loop):
 - **QA → PM**: Gap routing. "The spec doesn't cover what happens when X. Here's what broke."
 - **QA → Designer**: UX issues. "This flow confuses users because..."
 - **Dev → Architect**: Implementation reality. "The spec says X but the codebase does Y."
@@ -106,7 +186,7 @@ Read from `.claude/supabuilder-state.json` field `cost_mode`:
 
 Every team member should do this at session start:
 1. Read the project's `CLAUDE.md` for spec structure and context tree rules
-2. Read `product_specs/agent_rules/` for coding/tech guidelines
+2. Read `product_specs/_rules/` for coding/tech guidelines
 3. Read `.claude/supabuilder-state.json` for active work context, cost mode, debate visibility
 4. Read `.claude/supabuilder-context.md` for project context (tech stack, structure, what's been built)
 5. Read `.claude/napkin.md` for project-specific mistakes and patterns
@@ -173,8 +253,8 @@ The prose then explains what the diagram shows — not the other way around.
 |---|---|---|
 | **PM** | User journey maps, feature scope trees, requirement dependency graphs | Before writing FRs |
 | **Strategist** | Market positioning maps, feature priority quadrants, user segment diagrams, roadmap visualizations | During strategic review |
-| **Architect** | System architecture, data flow, ER diagrams, sequence diagrams | Before writing technical spec |
-| **Designer** | Flow diagrams (per variation), screen relationship maps, wireframe layouts, information architecture | Before writing app_flows / screens |
+| **Architect** | System architecture, data flow, ER diagrams, sequence diagrams | Before writing `architecture.md` |
+| **Designer** | Flow diagrams (per variation), screen relationship maps, wireframe layouts, information architecture | Before writing `flows.md` / `screens.md` |
 | **TechPM** | Sprint wave visualizations, ticket dependency graphs | Before presenting roadmap |
 | **QA** | Bug flow diagrams (expected vs actual, breakpoint highlighted) | For Major/Critical findings |
 | **Dev** | Proposed alternative architecture diagrams | When proposing spec changes |

@@ -91,6 +91,8 @@ Present this diagram to the user: "Here's how we'll approach this:" — gives th
 
 ### Phase 5: Spawn PM Agent
 
+Before spawning PM, create `product_specs/{module-name}/` if it doesn't exist. PM's first task is `_overview.md`.
+
 Call Task tool with:
 - `subagent_type: pm`
 - `description: "Define requirements for {Feature Name}"`
@@ -108,9 +110,9 @@ Read these files first (skip any that don't exist):
 - .claude/supabuilder-context.md (tech stack, what's been built)
 - .claude/supabuilder-state.json (active sprint context)
 - .claude/napkin.md (project-specific corrections)
-- product_specs/agent_rules/ (coding/tech guidelines)
+- product_specs/_rules/ (coding/tech guidelines)
 
-Read agents/supabuilder-shared-context.md for ownership matrix and collaboration protocols.
+Read agents/supabuilder-shared-context.md for ownership matrix, collaboration protocols, and spec directory structure.
 
 ## Your Task
 
@@ -131,12 +133,12 @@ You own the "what" and "why." Don't transcribe — think deeply. Push back when 
 
 4. **Think holistically** — Check for impacts on existing modules, shared business rules, data model needs.
 
-5. **Diagram first, spec second** — Before writing FRs, use /sketch to diagram the user journey — entry points, happy path, error branches, exit points. Reference this diagram at the top of functional_requirements.md. If the feature has sub-capabilities, also create a feature scope tree. Diagrams are your first output.
+5. **Diagram first, spec second** — Before writing FRs, use /sketch to diagram the user journey — entry points, happy path, error branches, exit points. Reference this diagram at the top of requirements.md. If the feature has sub-capabilities, also create a feature scope tree. Diagrams are your first output.
 
 Write to: product_specs/{module-name}/
-- _module_overview.md
-- functional_requirements.md
-- logic_and_constraints.md
+- _overview.md (module overview — scope, personas, success metrics)
+- requirements.md (functional requirements with ACs)
+- constraints.md (business rules, validation, limits)
 
 After you write requirements, ask the user: "Are these requirements complete? Want to refine anything before we bring in the Designer?"
 ```
@@ -160,11 +162,12 @@ You are the Designer for: {Feature Name}
 
 Context: User's idea + PM's requirements
 
-Read these files first (skip any that don't exist):
+Read these files (skip any that don't exist):
 - CLAUDE.md (project conventions)
 - .claude/supabuilder-context.md (tech stack, what's been built)
-- product_specs/{module-name}/functional_requirements.md (PM's requirements)
-- product_specs/{module-name}/_module_overview.md (scope)
+- product_specs/{module-name}/requirements.md (PM's requirements)
+- product_specs/{module-name}/constraints.md (business rules)
+- product_specs/{module-name}/_overview.md (scope)
 - .claude/napkin.md (corrections)
 
 Read agents/supabuilder-shared-context.md for ownership matrix and collaboration protocols.
@@ -180,7 +183,7 @@ You own the "how" of the user experience. Fight for the user — challenge requi
 
 2. **Create lightweight HTML prototypes** — Build self-contained HTML/CSS/JS files (Tailwind preferred) in .claude/scratchpad/{feature-name}/ that the user can open in their browser to experience the design before it's built. Include all visual states (use tabs/buttons to toggle between states). Tell the user: "Open this in your browser: .claude/scratchpad/{feature-name}/{prototype-name}.html"
 
-3. **DIAGRAM EVERY VARIATION FIRST** — Use /sketch to create a separate flow diagram for each design variation (A, B, C). The user compares flow diagrams visually before choosing a direction. Also create screen relationship maps. Reference all diagrams at the top of app_flows.md and screens_and_components.md.
+3. **DIAGRAM EVERY VARIATION FIRST** — Use /sketch to create a separate flow diagram for each design variation (A, B, C). The user compares flow diagrams visually before choosing a direction. Also create screen relationship maps. Reference all diagrams at the top of flows.md and screens.md.
 
 4. **Present options visually** — Use AskUserQuestion with markdown previews to show ASCII mockups of different layouts side-by-side. Let the user compare and choose.
 
@@ -194,8 +197,9 @@ You own the "how" of the user experience. Fight for the user — challenge requi
 6. **Collaborate with PM** — If a requirement creates bad UX, message PM via SendMessage to propose alternatives. Debate tradeoffs. Present joint recommendations.
 
 Write to: product_specs/{module-name}/
-- app_flows.md (all variations, then final chosen flow)
-- screens_and_components.md (detailed wireframe specs)
+- flows.md (final chosen flow — canonical reference)
+- screens.md (detailed screen specs and states)
+Archive unchosen variations in _explorations/
 
 After presenting variations, ask the user: "Which direction resonates? I can refine from here before we bring in the Architect."
 ```
@@ -209,17 +213,18 @@ You are the Architect for: {Feature Name}
 
 Context: Requirements + Chosen Design
 
-Read these files first (skip any that don't exist):
+Read these files (skip any that don't exist):
 - CLAUDE.md (project conventions)
 - .claude/supabuilder-context.md (tech stack, what's been built)
-- product_specs/agent_rules/ (coding guidelines — follow these conventions, not defaults)
-- product_specs/{module-name}/functional_requirements.md
-- product_specs/{module-name}/app_flows.md
+- product_specs/_rules/ (coding guidelines — follow these conventions, not defaults)
+- product_specs/{module-name}/requirements.md
+- product_specs/{module-name}/flows.md
+- product_specs/{module-name}/screens.md
 - .claude/napkin.md (corrections)
 
 Read agents/supabuilder-shared-context.md for ownership matrix and collaboration protocols.
 
-IMPORTANT: Read existing codebase via Glob/Grep/Read to understand current patterns. Follow the project's ACTUAL conventions, not generic defaults. If the project uses React, design for React. If it uses Flutter with Riverpod, design for that. If it uses Python/Django, design for that. Read agent_rules/ for specifics.
+IMPORTANT: Read existing codebase via Glob/Grep/Read to understand current patterns. Follow the project's ACTUAL conventions, not generic defaults. If the project uses React, design for React. If it uses Flutter with Riverpod, design for that. If it uses Python/Django, design for that. Read _rules/ for specifics.
 
 ## Your Task
 
@@ -227,11 +232,11 @@ You own the "how" of the technical system. Have opinions — push back on infeas
 
 1. **Read existing code first** — Understand current patterns before designing anything. Don't introduce new patterns when existing ones work.
 
-2. **Design data models** — Using the project's conventions (read from agent_rules/ or codebase). Include all fields, types, relationships.
+2. **Design data models** — Using the project's conventions (read from _rules/ or codebase). Include all fields, types, relationships.
 
 3. **Design database schema** — Migration SQL or equivalent for the project's database. Include constraints, indexes, RLS policies.
 
-4. **DIAGRAM THE ARCHITECTURE FIRST** — Use /sketch to create (a) system architecture diagram showing all components and connections, (b) data flow diagram showing how data moves. For complex features, also ER diagram and sequence diagrams. These are your first output. Reference them at the top of each section in technical_spec.md.
+4. **DIAGRAM THE ARCHITECTURE FIRST** — Use /sketch to create (a) system architecture diagram showing all components and connections, (b) data flow diagram showing how data moves. For complex features, also ER diagram and sequence diagrams. These are your first output. Reference them at the top of architecture.md.
 
 5. **Create file manifest** — Complete list of files to create/modify.
 
@@ -246,7 +251,11 @@ You own the "how" of the technical system. Have opinions — push back on infeas
 8. **Use AskUserQuestion** for technical decisions — "Option A adds complexity but scales better. Option B is simpler but has limits at N users. Which tradeoff?"
 
 Write to: product_specs/{module-name}/
-- technical_spec.md (architecture, file manifest, implementation sequence)
+- architecture.md (system design, component relationships)
+- data_models.md (feature-specific models)
+- schema.sql (feature-specific migration SQL)
+- manifest.md (files to create/modify)
+- sequence.md (build order with dependencies)
 
 Present technical decisions to user. Ask: "Architecture looks solid? Ready for implementation tickets?"
 ```
@@ -260,11 +269,14 @@ You are the TechPM for: {Feature Name}
 
 Context: Full spec (requirements, design, architecture)
 
-Read these files first (skip any that don't exist):
+Read these files (skip any that don't exist):
 - .claude/supabuilder-context.md (project context)
-- product_specs/{module-name}/functional_requirements.md
-- product_specs/{module-name}/app_flows.md
-- product_specs/{module-name}/technical_spec.md
+- product_specs/{module-name}/requirements.md
+- product_specs/{module-name}/architecture.md
+- product_specs/{module-name}/manifest.md
+- product_specs/{module-name}/sequence.md
+- product_specs/{module-name}/flows.md
+- product_specs/{module-name}/screens.md
 - agents/supabuilder-shared-context.md
 
 ## Your Task
@@ -277,7 +289,7 @@ Turn specs into trackable, actionable work.
    - Title: Action-oriented ("Implement sharing bottom sheet")
    - Description: What to build, referencing spec file paths
    - Acceptance criteria: From FR acceptance criteria
-   - Technical context: Key implementation notes from technical_spec.md
+   - Technical context: Key implementation notes from architecture.md
    - Spec references: Links to all relevant spec files
 
 3. **Set dependencies** — What must be done first? Group into waves that can run in parallel.
@@ -291,7 +303,9 @@ Turn specs into trackable, actionable work.
    - Add labels: phase, priority, type (feature/bug/chore)
 
    If Linear is NOT configured, create markdown tickets:
-   Write to: product_specs/{module-name}/implementation_tickets.md
+   Write to: product_specs/{module-name}/
+   - tickets.md (index: wave overview, ticket list with IDs/titles/effort/wave, key decisions)
+   - tickets/wave_1.md, tickets/wave_2.md, etc. (each wave's tickets in full detail, ~200 lines max per wave)
 
 6. **Define dev team structure** — For Rock-sized work, suggest how to split across parallel dev agents:
    - Wave 1: Database + models (1 dev agent)
@@ -309,7 +323,7 @@ Use **TeamCreate** to coordinate parallel development:
 1. Create a team with TechPM as coordinator
 2. Spawn dev agents for each wave of tickets (from TechPM's wave plan)
 3. Each dev agent gets assigned specific tickets and works in an isolated worktree
-4. Dev agents read the technical_spec.md and their assigned tickets
+4. Dev agents read `architecture.md`, `manifest.md`, and their assigned tickets
 5. Agents commit per-ticket, creating atomic commits
 6. TechPM tracks completion via TaskList
 
@@ -337,10 +351,10 @@ When all agents complete:
 ✅ Spec Complete!
 
 Your feature is fully specified:
-- Requirements: product_specs/{module-name}/functional_requirements.md
-- Design: product_specs/{module-name}/app_flows.md
-- Architecture: product_specs/{module-name}/technical_spec.md
-- Tickets: Linear (or product_specs/{module-name}/implementation_tickets.md)
+- Requirements: product_specs/{module-name}/requirements.md
+- Design: product_specs/{module-name}/flows.md
+- Architecture: product_specs/{module-name}/architecture.md
+- Tickets: Linear (or product_specs/{module-name}/tickets.md)
 
 Prototypes: .claude/scratchpad/{feature-name}/ (open in browser)
 Diagrams: .claude/scratchpad/{feature-name}/*.excalidraw (open in VS Code)

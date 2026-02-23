@@ -38,7 +38,7 @@ Supabuilder replaces that with a team where each role has deep expertise, strong
 | **Strategist** | The one who asks "should we build this at all?" Aligns features to vision, flags scope creep, kills ideas that don't serve the product — even when you're excited about them. |
 | **Architect** | The one who makes sure it can actually be built — and won't collapse under its own weight. Designs data models, validates feasibility, pushes back on requirements that would create tech debt. |
 | **TechPM** | The one who turns decisions into trackable work. Creates Linear tickets a developer can pick up without asking questions, coordinates dev waves. |
-| **Dev** | The one who reviews what's been built. Checks code against spec, enforces conventions, catches implementation drift before it compounds. Builds in parallel swarms using isolated worktrees. |
+| **Dev** | Two modes: **Build** — parallel dev agents write code in wave-based sprints with incremental QA after each wave. **Review** — checks code against spec, enforces conventions, catches implementation drift before it compounds. |
 | **QA** | The one who uses your product the way a real person would — and finds everything that breaks. Routes findings back to the right spec owner so the product evolves from real testing, not guesswork. |
 
 ### They Talk to Each Other
@@ -67,9 +67,10 @@ This is what makes Supabuilder more than a planning tool. The team doesn't hand 
 ```
 Think   →  You have an idea, a problem, a direction
 Spec    →  PM, Designer, Architect shape it into something buildable
-Build   →  Dev swarm builds in parallel worktrees
-Review  →  Dev reviews code against spec and conventions
-Test    →  QA tests from a real user's perspective
+Build   →  Dev agents build in parallel waves (isolated worktrees)
+  QA    →  Incremental QA after each wave — blocking issues fixed before next wave
+Review  →  Dev reviews all code against spec and conventions
+Test    →  QA tests full feature from a real user's perspective
 Learn   →  Gaps surface. Assumptions break. New needs emerge.
 Revise  →  PM updates specs. Designer adjusts flows. Back to Build.
           ↑_________________________________________________↩
@@ -127,7 +128,8 @@ All diagrams are Excalidraw files in `.claude/scratchpad/` — open in VS Code o
 |---------|-------------|
 | `/supabuilder:init` | Scan your project — tech stack, structure, what's built. Creates context all agents share. |
 | `/supabuilder:start` | Start talking about an idea. Orchestrator brings in the right agents progressively. |
-| `/supabuilder:sprint <name>` | Full sprint — all 7 agents, end to end. |
+| `/supabuilder:sprint <name>` | Full sprint — all 7 agents, end to end. Spec → Build → Review. |
+| `/supabuilder:develop <name>` | Build from tickets — parallel dev waves with incremental QA after each wave. |
 | `/supabuilder:review` | Bring in Dev + QA to review what's been built against the spec. |
 | `/supabuilder:status` | Where things stand — active sprints, phases, blockers. |
 | `/supabuilder:mode <mode>` | Cost mode and debate visibility. |

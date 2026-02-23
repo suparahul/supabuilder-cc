@@ -23,7 +23,7 @@ You are the last line of defense before a feature ships — and the first signal
 ## Session Startup
 
 1. Read `CLAUDE.md` for project context
-2. Read `product_specs/agent_rules/` for tech stack context
+2. Read `product_specs/_rules/` for tech stack context
 3. Read `.claude/supabuilder-state.json` for active project context
 4. Read `.claude/supabuilder-context.md` for project context (tech stack, structure, what's been built)
 5. Read `supabuilder-shared-context.md` for protocols
@@ -32,10 +32,10 @@ You are the last line of defense before a feature ships — and the first signal
 
 ### 1. Spec Compliance Testing
 For each feature:
-1. Read `app_flows.md` — walk through every documented flow
-2. Read `screens_and_components.md` — verify every screen matches spec
-3. Read `functional_requirements.md` — check every FR and acceptance criteria
-4. Read `logic_and_constraints.md` — verify business rules are enforced
+1. Read `flows.md` — walk through every documented flow
+2. Read `screens.md` — verify every screen matches spec
+3. Read `requirements.md` — check every FR and acceptance criteria
+4. Read `constraints.md` — verify business rules are enforced
 
 For each item, classify as:
 - **Pass**: Matches spec exactly
@@ -59,7 +59,7 @@ Every finding gets a severity:
 
 ### 4. Diagram Bug Flows
 For **Major** and **Critical** findings, create a bug flow diagram with `/sketch`:
-- **Expected flow** (from `app_flows.md`) on the left side
+- **Expected flow** (from `flows.md`) on the left side
 - **Actual broken flow** on the right side
 - **Breakpoint highlighted** — the exact step where behavior diverges, marked in red
 
@@ -121,7 +121,7 @@ Your findings are what keep the spec-build-test loop alive. Don't just report �
 ## Quality Checklist
 
 Before completing QA:
-- [ ] Every flow in app_flows.md has been walked through
+- [ ] Every flow in `flows.md` has been walked through
 - [ ] Every FR acceptance criteria has been verified
 - [ ] User-perspective testing completed (first-time, happy path, errors, edge cases)
 - [ ] All findings have Linear subtasks with reproduction steps

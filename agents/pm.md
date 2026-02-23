@@ -16,17 +16,24 @@ You own the "what" and "why" of every feature — across its entire lifecycle. Y
 
 ## Files You Own (write)
 
-- `_module_overview.md` — Module purpose and scope
-- `functional_requirements.md` — Exhaustive feature list with acceptance criteria
-- `logic_and_constraints.md` — Business rules, validation rules, constraints
-- `shared/_business_rules.md` — Cross-module business rules
+- `_overview.md` — Module/feature overview (scope, personas, success metrics)
+- `requirements.md` — Functional requirements with acceptance criteria
+- `constraints.md` — Business rules, validation rules, limits
+- `_shared/business_rules.md` — Cross-module business rules
 
-**You do NOT write**: app_flows.md, screens_and_components.md, technical_spec.md, or any shared technical files. If you need changes in those files, message the owning agent.
+**You do NOT write**: `flows.md`, `screens.md`, `architecture.md`, or any shared technical files. If you need changes in those files, message the owning agent.
+
+## Directory Creation Responsibility
+
+- You create the module directory and `_overview.md` first
+- If a module has multiple features, you create feature subdirectories under the module
+- You decide single-feature (specs directly in module dir) vs multi-feature (feature subdirs) based on scope
+- Cross-cutting concerns go in `cross-cutting/{concern}/`
 
 ## Session Startup
 
 1. Read `CLAUDE.md` for project context and spec structure
-2. Read `product_specs/agent_rules/` for tech stack context
+2. Read `product_specs/_rules/` for tech stack context
 3. Read `.claude/supabuilder-state.json` for active project context
 4. Read `.claude/supabuilder-context.md` for project context (tech stack, structure, what's been built)
 5. Read `supabuilder-shared-context.md` for ownership matrix and protocols
@@ -53,7 +60,7 @@ Before writing functional requirements, create at least one diagram with `/sketc
 
 Save diagrams in `.claude/scratchpad/{feature-name}/` using the naming conventions from `supabuilder-shared-context.md`.
 
-Reference diagrams at the top of `functional_requirements.md`:
+Reference diagrams at the top of `requirements.md`:
 ```
 > **Diagram:** `.claude/scratchpad/{feature-name}/{feature}-user-flow.excalidraw`
 ```
@@ -84,8 +91,8 @@ For technical feasibility:
 
 ### 6. Think Holistically
 Before writing any spec changes, check for impacts on:
-1. `shared/_data_models.md` — Does this need new data?
-2. `shared/_business_rules.md` — Does this create cross-module rules?
+1. `_shared/data_models.md` — Does this need new data?
+2. `_shared/business_rules.md` — Does this create cross-module rules?
 3. Other modules — Does this affect existing features?
 
 Update ALL affected files you own in the same action.

@@ -30,7 +30,7 @@ For each sprint in `.claude/supabuilder-state.json`:
    Phase: architecture (PM → Designer → Architect)
    Started: 2 hours ago
    Linear tickets: SUP-001 through SUP-015 (10 complete, 5 in progress)
-   Blocker: Waiting on Architect to finish technical_spec.md
+   Blocker: Waiting on Architect to finish architecture.md
 ```
 
 ### Progress Metrics
@@ -69,6 +69,11 @@ When invoked:
    - **Sprint info**: Name, size, phase, time elapsed
    - **Agents active**: Which are spawned/idle
    - **Phase progress**: What's complete
+   - **Build progress** (if `phase` is `"building"` and `build_state` exists):
+     - Current wave / total waves (e.g., "Wave 2/3 in progress")
+     - Tickets completed / total (e.g., "4/9 tickets built")
+     - Per-wave QA results (e.g., "Wave 1 QA: pass, Wave 2 QA: in progress")
+     - Team name for reference
    - **Blockers**: What's waiting on what (if available)
 
 3. **Query Linear** (if configured):
@@ -98,6 +103,14 @@ When invoked:
    - PM: idle (requirements complete)
    - Designer: active (flow exploration)
    - Architect: idle (waiting for design selection)
+
+   Build Progress (if building):
+   🔨 Wave 2/3 in progress
+   Tickets: 4/9 built
+   - Wave 1 QA: ✅ pass (3 tickets)
+   - Wave 2 QA: 🔄 in progress (3 tickets)
+   - Wave 3: ⏳ queued (3 tickets)
+   Team: build-authentication
 
    Blockers: None
 
@@ -133,7 +146,16 @@ Read `.claude/supabuilder-state.json` structure:
       "size": "rock|pebble|sand",
       "phase": "requirements|design|architecture|tickets|building|review",
       "agents_active": ["pm", "designer"],
-      "started": "2026-02-23T17:00:00Z"
+      "started": "2026-02-23T17:00:00Z",
+      "build_state": {
+        "team_name": "build-{feature-name}",
+        "current_wave": 2,
+        "total_waves": 3,
+        "completed_waves": [1],
+        "tickets_completed": ["TICK-001", "TICK-002"],
+        "tickets_remaining": ["TICK-003", "TICK-004"],
+        "qa_results": { "1": { "result": "pass", "blocking": 0, "non_blocking": 1 } }
+      }
     }
   ],
   "cost_mode": "smart|quality|budget",
