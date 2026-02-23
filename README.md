@@ -83,6 +83,14 @@ Both are optional. System works 100% without them.
 /supabuilder:mode budget     # Mostly Sonnet, 1 round (fast & cheap)
 ```
 
+## Uninstall
+
+```bash
+npx supabuilder-cc --uninstall
+```
+
+Removes all Supabuilder agents and skills from `~/.claude/`. If you had existing agent files before installing, they'll be restored from backups.
+
 ## Requirements
 
 - Claude Code
