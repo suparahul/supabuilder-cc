@@ -4,6 +4,29 @@ Read this when evaluating quality gates before transitions. Gates are LLM-enforc
 
 ---
 
+## Gate 0: Entry Gate (Plan Mode)
+
+**STRUCTURAL — enforced by Claude Code plan mode, not by instructions**
+
+Every agent spawns in `mode: "plan"`. Before executing any work:
+
+- [ ] Agent has explored context and relevant files
+- [ ] Agent has asked clarifying questions (if any) via AskUserQuestion
+- [ ] Agent has written a plan covering: understanding, approach, planned diagrams, deliverables
+- [ ] User has approved the plan via ExitPlanMode
+
+**This gate is structurally enforced** — the agent cannot call Edit, Write, or Bash
+(non-read-only) until plan mode exits. No instruction-level workaround is possible.
+
+The plan IS the discuss phase output. By the time the user approves, they've aligned with
+the agent on scope, approach, and expected outputs.
+
+**Review checkpoints:** The agent's plan must include at least one `[REVIEW]` step where it
+will pause mid-execution, present work, and get user confirmation via AskUserQuestion before
+continuing. Orchestrator should reject plans with zero review checkpoints.
+
+---
+
 ## Gate 1: Write Gate
 
 **CRITICAL — prevents "agents rush to write"**

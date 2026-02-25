@@ -1,8 +1,8 @@
 ---
-name: supabuilder:init
+
+## name: supabuilder:init
 description: "Initialize Supabuilder in a project. Creates workspace, writes orchestrator brain to CLAUDE.md, optionally scans codebase and migrates old specs."
 user-invocable: true
----
 
 # Supabuilder Init
 
@@ -22,12 +22,14 @@ Initialize or resume Supabuilder setup in the current project. Interactive, prod
 
 Check what already exists to determine where to begin:
 
-| Condition | Start at |
-|-----------|----------|
-| No `supabuilder/` folder | Step 1 |
-| `supabuilder/` exists but wikis have only stubs | Step 2 |
-| Wikis populated but old `product_specs/` exists | Step 5 |
-| Everything is populated | "Supabuilder is already initialized. Nothing to do." |
+
+| Condition                                       | Start at                                             |
+| ----------------------------------------------- | ---------------------------------------------------- |
+| No `supabuilder/` folder                        | Step 1                                               |
+| `supabuilder/` exists but wikis have only stubs | Step 2                                               |
+| Wikis populated but old `product_specs/` exists | Step 5                                               |
+| Everything is populated                         | "Supabuilder is already initialized. Nothing to do." |
+
 
 ---
 
@@ -42,6 +44,7 @@ Read `~/.claude/supabuilder/reference/branding.md` and output the header with ve
 Read `~/.claude/supabuilder/reference/init-scaffold.md` for the full folder structure and stub file contents.
 
 Create the `supabuilder/` workspace with all folders:
+
 - `product-wiki/` with overview stub + empty canvas
 - `code-wiki/` with README, architecture-map, patterns, data-models stubs + empty canvas
 - `missions/` (empty)
@@ -57,6 +60,7 @@ Create the `supabuilder/` workspace with all folders:
 Read the template from `~/.claude/supabuilder/templates/claude-md-template.md`.
 
 Write to `.claude/CLAUDE.md`:
+
 - **If no CLAUDE.md exists:** write the template directly
 - **If CLAUDE.md exists:** ask the user via AskUserQuestion:
   - "Append Supabuilder orchestrator to existing CLAUDE.md" (Recommended)
@@ -66,11 +70,13 @@ Write to `.claude/CLAUDE.md`:
 ### 1d. MCP Setup (optional)
 
 First check `.mcp.json` (if it exists) for already-configured servers. Only ask about MCPs that aren't already present:
+
 - If Linear is already configured → skip silently
 - If Reddit is already configured → skip silently
 - If both are already configured → skip this entire step
 
 For any that are missing, ask the user via AskUserQuestion:
+
 - "Configure Linear for ticket tracking?" — if yes, add Linear MCP config to `.mcp.json`
 - "Add Reddit for community research?" — if yes, add Reddit MCP config
 
@@ -79,6 +85,7 @@ If user skips both, Supabuilder still works fully. If `.mcp.json` exists, merge 
 ### 1e. Checkpoint
 
 Show summary of what was created:
+
 ```
 Workspace created at supabuilder/
 Orchestrator brain written to .claude/CLAUDE.md
@@ -97,6 +104,7 @@ Before scanning anything, gather user context.
 ### 2a. Ask for overview (free text)
 
 AskUserQuestion:
+
 - Header: "Context"
 - Question: "Before I scan your codebase, a quick overview from you helps me scan smarter. What does this product do? Or point me to an existing doc (README, docs folder, wiki)."
 - Options:
@@ -109,6 +117,7 @@ If user provides context → hold it for guiding the scan.
 ### 2b. Quick project detection
 
 NOW scan config files and directory structure to detect modules/areas. This is lightweight — Glob + Read of:
+
 - `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `pubspec.yaml`, `Gemfile`
 - Directory tree (`src/`, `lib/`, `app/`, `pages/`, `routes/`, `api/`, etc.)
 - Language, framework, main dependencies
@@ -118,6 +127,7 @@ This is NOT deep code scanning. Just enough to identify areas.
 ### 2c. Present areas
 
 Using detected structure + user's overview, present areas as an AskUserQuestion:
+
 - Header: "Areas"
 - Question: "I detected these main areas in your codebase: {area1}, {area2}, {area3}, ... Does this look right?"
 - Options:
@@ -149,6 +159,7 @@ For each area in the wave plan:
 ### 3a. Progress (for 4+ areas only)
 
 Show a progress bar:
+
 ```
 [████████░░░░░░░░] 3/8 areas  |  Next: billing
 ```
@@ -162,6 +173,7 @@ Single scan of the area's files — routes, components, models, API handlers, va
 ### 3c. Process through both lenses
 
 From the same scan findings, extract two summaries:
+
 - **Product lens:** what this area does for users, flows, business rules, constraints (see init-product-wiki.md "What to Extract")
 - **Code lens:** architecture, patterns, data models, dependencies, key abstractions (see init-code-wiki.md "Scan Protocol")
 
@@ -169,14 +181,29 @@ If dual-lens processing reveals gaps (e.g., product lens spots a flow but code l
 
 ### 3d. Diagrams
 
-Update both evolving diagrams from the dual summaries:
-- `product-wiki/product-overview.excalidraw` — this area's place in the product
-- `code-wiki/system-overview.excalidraw` — this area's technical architecture
+Use `/sketch` to create or update both evolving diagrams from the dual summaries:
 
-Both diagrams evolve wave by wave. Each wave adds to the existing diagrams. By the end, they ARE the overview diagrams — they weren't created separately, they grew through the scan process.
+**Product overview** (`product-wiki/product-overview.excalidraw`):
 
-Diagrams are created BEFORE presenting to user and BEFORE writing wiki prose.
-The diagram is the primary artifact — wiki prose elaborates on what the diagram shows.
+- Add this area as a module box with a one-line description
+- Draw user flows through this area (arrows showing user journey)
+- Connect to previously scanned areas where relevant
+- Show user types if detected
+
+**System overview** (`code-wiki/system-overview.excalidraw`):
+
+- Add this area's main components/services
+- Show data flow between components
+- Draw connections to previously scanned areas (shared services, APIs, databases)
+- Note key technologies/patterns
+
+Both diagrams evolve wave by wave. Each wave adds to the existing diagrams. By the end,
+they ARE the overview diagrams — they weren't created separately, they grew through the
+scan process.
+
+**HARD GATE: Do NOT proceed to Step 3e until both diagrams are created/updated using /sketch
+and shown to the user.** If you skip this step, the user gets a text dump with no visual
+context. Diagrams are the PRIMARY artifact — wiki prose elaborates on what the diagram shows.
 
 ### 3e. Confirm with user
 
@@ -202,6 +229,7 @@ One confirmation covers both lenses. If nothing is ambiguous, show findings and 
 ### 3f. Write both wikis
 
 With confirmed understanding:
+
 - `product-wiki/modules/{area}/README.md`
 - `code-wiki/modules/{area}/README.md`
 - Update running overviews (`product-wiki/overview.md`, `code-wiki/README.md`)
@@ -219,6 +247,7 @@ With confirmed understanding:
 After all area waves are complete, synthesize cross-cutting content. Read already-written per-area wiki files rather than re-scanning code.
 
 Finalize:
+
 - `product-wiki/overview.md` — full product story synthesized from all module READMEs
 - `code-wiki/architecture-map.md` — connections between areas, integrations
 - `code-wiki/patterns.md` — patterns observed across areas
@@ -236,6 +265,7 @@ Only offered if old `product_specs/` or existing product knowledge docs are dete
 Ask the user: **"I see existing specs in product_specs/. Want me to merge them into the product-wiki?"**
 
 Options:
+
 - "Yes, merge and archive old specs" (Recommended)
 - "Skip — keep old specs as they are"
 
@@ -277,6 +307,7 @@ The orchestrator is now active. Start talking about what you want to build.
 For small projects (1-3 areas), skip the progress bar line.
 
 Show commands:
+
 ```
 Commands:
   /supabuilder:mission    Explicitly start a mission
@@ -293,5 +324,6 @@ Commands:
 - **Context file `.claude/supabuilder-context.md` exists (old version)** — warn: "Found old supabuilder-context.md. The new version uses supabuilder/state.json and .claude/CLAUDE.md instead. You can safely delete the old file."
 - **State file `.claude/supabuilder-state.json` exists (old version)** — same warning
 - **Can't write files** — check permissions, print error
-- **`.mcp.json` exists** — merge, don't overwrite
+- `**.mcp.json` exists** — merge, don't overwrite
 - **Very large codebase** — wave mode handles this naturally. Each wave is self-contained, preventing context overflow. After writing wiki content for an area, reference the files instead of holding raw scan data.
+

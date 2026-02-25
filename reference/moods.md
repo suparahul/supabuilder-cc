@@ -22,14 +22,31 @@ discuss → research → explore → write → build
 
 ---
 
-## Plan/Execute Mode (Internal to Agent)
+## Plan/Execute Mode
 
-Within each mood, agents operate in a natural plan → execute cycle:
+The first phase of an agent's work (discuss + initial planning) is **structurally enforced**
+via Claude Code's plan mode. Agents spawn in `mode: "plan"` and CANNOT write files or execute
+commands until the user approves their plan.
 
-- **Plan:** Create a visual artifact (diagram, prototype, flow). Present to user.
-- **Execute:** Produce the actual output for that mood.
+**Plan phase (structurally enforced):**
+- Agent reads context, explores files
+- Agent asks clarifying questions (AskUserQuestion)
+- Agent writes plan: understanding, approach, diagrams to create, deliverables
+- User approves → agent exits plan mode
 
-This is managed by the agent, not the orchestrator. The plan/execute cycle is baked into agent identity, not enforced externally.
+**Execute phase (after plan approval):**
+- Agent creates diagrams (using /sketch)
+- Agent produces deliverables per the approved plan
+- The approved plan is a contract — agent follows it
+
+Within the execute phase, agents still follow the mood sequence (research → explore → write)
+as appropriate. The plan gates the START of execution; moods guide the WORK during execution.
+
+**Review checkpoints (behavioral enforcement):**
+Agents mark `[REVIEW]` steps in their plan — points where they pause, present work to the
+user (diagram + summary), and use AskUserQuestion before continuing. This is behavioral
+(not structurally enforced), but the approved plan makes it a visible contract. If an agent
+skips a [REVIEW] step, that's a clear plan violation the user can flag.
 
 ---
 

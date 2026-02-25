@@ -52,7 +52,15 @@ Both modes include module name(s) so the agent knows which wiki folders are rele
 2. **Define the mood instruction** — what mood, what's expected
 3. **Define exit conditions** — what "done" looks like for this spawn
 4. **Set max turns** — safety net to prevent infinite loops
-5. **Spawn via Task tool** — use the agent's name as `subagent_type` (one of: `pm`, `designer`, `architect`, `strategist`, `techpm`, `qa`) and the context packet as prompt. These names match the agent identity files installed at `~/.claude/agents/`.
+5. **Spawn via Task tool** — use the agent's name as `subagent_type` (one of: `pm`, `designer`, `architect`, `strategist`, `techpm`, `qa`) and the context packet
+   as prompt. **Always set `mode: "plan"`** — the agent must present its approach and get user
+   approval before executing. These names match the agent identity files installed at `~/.claude/agents/`.
+6. **Plan phase covers discuss mood** — In plan mode, the agent:
+   - Reads context, explores relevant files
+   - Uses AskUserQuestion to align with the user (this IS the discuss phase)
+   - Writes a plan: what it understood, what it will produce, what diagrams it will create
+   - Calls ExitPlanMode → user sees the plan and approves
+   - Only then executes (creates diagrams, writes specs, etc.)
 
 ---
 
@@ -91,3 +99,40 @@ Every agent produces two artifacts:
 Plus any spec files the agent owns (requirements.md, architecture.md, etc.) when in write mood.
 
 The orchestrator reads the structured summary to decide next steps. The user sees the diagram. The spec files are the formal record.
+
+---
+
+## What the Agent's Plan Should Include
+
+When agents run in plan mode, their plan is the discuss + planning checkpoint. The plan should:
+
+1. **Understanding** — what the agent understood from the context packet (in its own words, through its lens)
+2. **Key questions** — anything ambiguous, surfaced via AskUserQuestion BEFORE the plan
+3. **Proposed approach** — what the agent will do, in what order
+4. **Diagrams** — which diagrams it will create (with names)
+5. **Deliverables** — what files it will produce
+6. **Open concerns** — anything it wants to flag for the user or other agents
+
+The plan is a CONTRACT. After approval, the agent executes this plan. Deviating from the
+approved plan (skipping diagrams, reordering steps, adding unplanned deliverables) is a violation.
+
+### Review Checkpoints
+
+Agents MUST mark steps in their plan where they will pause and present work to the user
+before continuing. Mark these with `[REVIEW]`:
+
+Example plan:
+1. Research competitors — WebSearch for GameChanger, Hudl, Trace...
+2. [REVIEW] Present research findings as a comparison diagram — pause for user discussion
+3. Create strategic positioning diagram based on discussion
+4. [REVIEW] Present positioning diagram — pause for user review
+5. Write strategy brief incorporating confirmed positioning
+
+At each [REVIEW] step, the agent:
+- Creates the diagram or artifact
+- Presents it to the user with a summary
+- Uses AskUserQuestion to confirm direction or surface questions
+- Only proceeds to the next step after user responds
+
+Minimum one [REVIEW] checkpoint per agent spawn. The orchestrator should reject plans
+that have no review checkpoints — it means the agent plans to blast through without pausing.

@@ -33,9 +33,18 @@ Agents should spin up quick throwaway diagrams freely. Not every diagram needs t
 
 ## Spec Gate
 
-Before any agent writes or updates a spec/deliverable markdown file, the corresponding diagram MUST exist. Create it with `/sketch` first. Prose without a diagram reference is incomplete.
+Before any agent writes or updates a spec/deliverable markdown file, the corresponding
+diagram MUST exist. **Use `/sketch` to create diagrams** — this is the tool. Do not write
+Excalidraw JSON manually and do not skip this step.
 
-This applies to formal deliverables (requirements, architecture, flows, etc.) — not to throwaway thinking diagrams.
+If you are about to write a spec and no diagram exists for it:
+1. Stop
+2. Create the diagram with /sketch
+3. Show it to the user
+4. Then write the spec that explains what the diagram shows
+
+Prose without a diagram reference is incomplete. This applies to formal deliverables
+(requirements, architecture, flows, etc.) — not to throwaway thinking diagrams.
 
 ---
 

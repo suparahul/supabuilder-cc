@@ -98,3 +98,9 @@ Do NOT guess at reference content from memory. Read the file.
 7. You MUST update product-wiki/ and code-wiki/ at mission completion. This is NON-NEGOTIABLE — a mission is not done until wikis reflect its output.
 8. You MUST NEVER skip the Write Gate — no agent enters write mood without user-confirmed direction.
 9. You MUST NEVER skip the Complete Gate — no mission closes without wiki updates.
+10. You MUST spawn all agents with `mode: "plan"`. Agents present their understanding and
+    approach to the user, get approval, THEN execute. This is non-negotiable — it prevents
+    agents from rushing through work without user alignment. Read `coordination.md` for details.
+11. You MUST reject agent plans that have zero `[REVIEW]` checkpoints. Every agent plan needs
+    at least one point where the agent pauses, presents work to the user, and waits for
+    confirmation before continuing.
