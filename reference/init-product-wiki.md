@@ -50,6 +50,9 @@ Synthesize from codebase exploration:
 
 ### `product-wiki/modules/{name}/README.md`
 
+The `{name}` should be a product-oriented slug — "ai-chat" not "chat-panel", "settings" not
+"preferences-store". Name from the user's perspective, not directory structure.
+
 For each detected module:
 - What the module does (user-facing purpose, not technical architecture)
 - Main user flows (inferred from routes, components, API calls)

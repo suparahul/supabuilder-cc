@@ -127,6 +127,11 @@ Using detected structure + user's overview, present areas as an AskUserQuestion:
 
 Order areas by likely importance: core features first, utilities last.
 
+Name areas from the user's perspective, not the codebase structure. "AI Chat" not "chat-panel",
+"Settings" not "preferences-store", "Project Setup" not "scaffolder". Directory names inform
+what exists — the area name reflects what it does for users. If the user provided an overview,
+use their language.
+
 This produces the **wave plan** — the ordered list of areas to scan one by one.
 
 ---
@@ -134,6 +139,10 @@ This produces the **wave plan** — the ordered list of areas to scan one by one
 ## Step 3: Wave Scan (unified scan, dual lens)
 
 Read `~/.claude/supabuilder/reference/init-product-wiki.md` and `~/.claude/supabuilder/reference/init-code-wiki.md` for what each lens extracts. Both process the same scan findings — one exploration pass per area, two lenses applied to the results.
+
+**CRITICAL: Process ONE area at a time.** Complete the full cycle (3a→3g) for each area
+before moving to the next. Do NOT batch-scan all areas and present results together.
+Each area gets its own scan, diagrams, user confirmation, and wiki write — then move on.
 
 For each area in the wave plan:
 
@@ -166,14 +175,29 @@ Update both evolving diagrams from the dual summaries:
 
 Both diagrams evolve wave by wave. Each wave adds to the existing diagrams. By the end, they ARE the overview diagrams — they weren't created separately, they grew through the scan process.
 
+Diagrams are created BEFORE presenting to user and BEFORE writing wiki prose.
+The diagram is the primary artifact — wiki prose elaborates on what the diagram shows.
+
 ### 3e. Confirm with user
 
-Present BOTH summaries + diagrams to user in one review pass. AskUserQuestion with 2-3 questions only if genuinely ambiguous. Examples:
-- "Is 'billing' the right name for this area?"
-- "I see 3 pricing tiers — is that current?"
-- "I didn't find refund logic — exists elsewhere or not built yet?"
+Present this area's findings with clear hierarchy — product understanding leads, technical details follow:
 
-One confirmation covers both lenses — no separate product/code review loops. If nothing is ambiguous, show findings and proceed.
+#### Format:
+
+**Area: {name}**
+
+**What it does** (product lens — plain language, no class names or code patterns):
+2-3 sentences explaining what this area does for the user. Flows, business rules,
+constraints. Written like explaining to a product person.
+
+**How it's built** (code lens — technical language OK here):
+Key architecture, patterns, main files, dependencies. Brief.
+
+**Diagrams:**
+Show both updated diagrams inline (product overview + system overview).
+
+Then AskUserQuestion with 2-3 questions only if genuinely ambiguous.
+One confirmation covers both lenses. If nothing is ambiguous, show findings and proceed.
 
 ### 3f. Write both wikis
 

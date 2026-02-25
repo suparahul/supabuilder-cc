@@ -1,6 +1,6 @@
 {
   "name": "supabuilder-cc",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Install Supabuilder — an AI product team orchestrator for Claude Code",
   "author": "Supabuilder",
   "license": "MIT",

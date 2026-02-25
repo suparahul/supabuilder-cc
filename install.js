@@ -125,7 +125,7 @@ console.log('  ███████║╚██████╔╝██║     
 console.log('  ╚══════╝ ╚═════╝ ╚═╝     ╚═╝  ╚═╝');
 console.log('           B U I L D E R');
 console.log('');
-console.log(`  v0.2.1 — "${tagline}"`);
+console.log(`  v0.2.2 — "${tagline}"`);
 console.log('');
 
 // Ensure directories exist
