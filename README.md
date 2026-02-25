@@ -117,9 +117,9 @@ Supabuilder is diagramming-first. Every agent creates visual artifacts as a prim
 
 `/supabuilder:init` produces project overview diagrams — architecture, module relationships, and feature landscape — so anyone can visually understand the system from day one. Sprint kickoff (`/supabuilder:start`, `/supabuilder:sprint`) shows a visual plan before any agent starts working.
 
-All diagrams are Excalidraw files in `.claude/scratchpad/` — open in VS Code or browser, co-edit, and agents read your changes.
+All diagrams are Excalidraw files inside the `supabuilder/` workspace — mission folders, wiki folders, or `supabuilder/diagrams/` for ad-hoc work. Open in VS Code or browser, co-edit, and agents read your changes.
 
-- **HTML prototypes** in `.claude/scratchpad/` — open in your browser, compare design variations side by side
+- **HTML prototypes** in mission folders — open in your browser, compare design variations side by side
 - **Inline comparisons** via AskUserQuestion — quick A/B decisions without leaving Claude Code
 
 ## Commands

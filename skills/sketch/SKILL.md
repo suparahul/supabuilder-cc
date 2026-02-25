@@ -9,21 +9,32 @@ argument-hint: [new <name> | open <name> | list]
 
 Create and manage Excalidraw diagrams for collaborative visual thinking. Claude writes the diagram, you edit in your browser or VS Code, Claude reads your changes and responds.
 
+## Default Locations
+
+- **Mission diagrams:** `supabuilder/missions/{id}/diagrams/` (when a mission is active)
+- **Wiki diagrams:** `supabuilder/product-wiki/` or `supabuilder/code-wiki/`
+- **Ad-hoc diagrams:** `supabuilder/diagrams/` (no active mission)
+
+All diagrams stay inside the `supabuilder/` workspace.
+
 ## Commands
 
 ### `/sketch new <name>`
 
 Create a new Excalidraw diagram.
 
-1. Create a new `.excalidraw` file at `.claude/scratchpad/<name>.excalidraw`
-2. Initialize with a basic Excalidraw JSON structure based on context:
+1. Determine save location:
+   - If a Supabuilder mission is active → `supabuilder/missions/{id}/diagrams/<name>.excalidraw`
+   - If `supabuilder/` exists but no active mission → `supabuilder/diagrams/<name>.excalidraw`
+   - Otherwise → current directory `<name>.excalidraw`
+2. Create the `.excalidraw` file and initialize with a basic Excalidraw JSON structure based on context:
    - If the user described a flow → create a flow diagram template
    - If the user described architecture → create a system diagram template
    - If the user described a screen → create a wireframe template
    - Otherwise → create a blank canvas with a title
 3. Tell the user how to open it:
    ```
-   Diagram created: .claude/scratchpad/<name>.excalidraw
+   Diagram created: <path>/<name>.excalidraw
 
    To view/edit:
    - VS Code: Install "Excalidraw" extension, then open the file
@@ -36,7 +47,7 @@ Create a new Excalidraw diagram.
 
 Open an existing diagram for review.
 
-1. Look for `.claude/scratchpad/<name>.excalidraw`
+1. Look for `<name>.excalidraw` in mission diagrams, workspace diagrams, wiki folders, and current directory
 2. If found, read the file and describe what's in the diagram:
    - List the elements (boxes, arrows, text)
    - Describe the overall structure
@@ -45,9 +56,9 @@ Open an existing diagram for review.
 
 ### `/sketch list`
 
-List all diagrams in the scratchpad.
+List all diagrams in the workspace.
 
-1. Glob for `*.excalidraw` files in `.claude/scratchpad/`
+1. Glob for `*.excalidraw` files in `supabuilder/` (missions, wikis, ad-hoc) and current directory
 2. For each file, show:
    - Name
    - Last modified date

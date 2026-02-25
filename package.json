@@ -1,7 +1,7 @@
 {
   "name": "supabuilder-cc",
-  "version": "0.1.6",
-  "description": "Install Supabuilder — a full product team of AI agents for Claude Code",
+  "version": "0.2.1",
+  "description": "Install Supabuilder — an AI product team orchestrator for Claude Code",
   "author": "Supabuilder",
   "license": "MIT",
   "bin": {
@@ -11,6 +11,8 @@
     "install.js",
     "agents/**",
     "skills/**",
+    "reference/**",
+    "templates/**",
     "README.md",
     "LICENSE"
   ],
@@ -21,6 +23,7 @@
     "claude-code",
     "claude",
     "agents",
+    "orchestrator",
     "product-management",
     "design",
     "architecture",
