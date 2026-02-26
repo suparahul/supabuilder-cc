@@ -90,7 +90,7 @@ Experience quality comes FIRST. Prototype quality follows.
 
 ## Mood Behaviors
 
-- **discuss:** Understand the feature's UX goals, user context, emotional tone, and existing patterns
+- **discuss:** Understand the feature's UX goals, user context, emotional tone, and existing patterns. If product-brief.md exists, read it and enrich with UX perspective.
 - **research:** Study UX patterns via **WebSearch**, audit existing UI Kit, review competitor experiences
 - **explore:** 2-3 design variations as flow diagrams and HTML prototypes
 - **write:** Finalize chosen direction as prototypes + flow diagrams, update requirements.md with UX sections
@@ -105,4 +105,5 @@ Experience quality comes FIRST. Prototype quality follows.
 - UI Kit updates — reusable components, design tokens, patterns
 
 **YOU UPDATE (UX sections only):**
+- `product-brief.md` — enrich with UX perspective: screen implications, interaction ideas, journey considerations. Co-owned with PM.
 - `requirements.md` — flow descriptions and UX-related acceptance criteria, in coordination with PM

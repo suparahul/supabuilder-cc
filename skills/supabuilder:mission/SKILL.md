@@ -54,7 +54,6 @@ The user gave a mission description. Classify and confirm:
      "completed": null,
      "paused_reason": null,
      "phase": "strategy",
-     "mood_history": [],
      "decisions": {},
      "modules": [],
      "progress": {},

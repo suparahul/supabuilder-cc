@@ -131,7 +131,7 @@ Empty Excalidraw canvas (same as product-overview).
 ```json
 {
   "orchestrator_active": true,
-  "supabuilder_version": "0.2.6",
+  "supabuilder_version": "0.2.7",
   "active_missions": [],
   "cost_mode": "smart",
   "user_control": "hands-on",

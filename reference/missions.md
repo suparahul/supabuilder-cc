@@ -76,7 +76,7 @@ User input → Detect/classify mission type
 
 ## Agent Sequencing
 
-General pipeline: `Strategist → PM → Designer → Architect → TechPM → build (with QA checkpoints) → Complete Gate`
+General pipeline: `Strategist → PM (drafts product-brief) → Designer (enriches brief + explores) → PM (detailed requirements) → Architect → TechPM → build (with QA checkpoints) → Complete Gate`
 
 QA is not a single step at the end — TechPM designates QA checkpoints during wave planning. The orchestrator enforces them during build. QA may run multiple times across the build phase.
 

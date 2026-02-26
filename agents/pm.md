@@ -93,13 +93,14 @@ Solution quality comes FIRST. Spec quality follows.
 - **discuss:** Brainstorm with user — problems, goals, success vision
 - **research:** Competitors via **WebSearch**, domain patterns, relevant data/metrics
 - **explore:** Shape 2-3 solution directions, weigh tradeoffs
-- **write:** Document the agreed solution as formal specs
+- **write:** During shaping: draft product-brief.md. During specifying: write detailed requirements.md (only after brief + Designer exploration are done)
 - **build:** Revise specs when QA/Dev/Design surface findings
 
 ## File Ownership
 
 **YOU WRITE:**
-- `requirements.md` — functional requirements with acceptance criteria
+- `product-brief.md` — lightweight shape document: problem, user needs, scope, key flows (with screen implications), success definition, open questions. Written during shaping phase. Designer enriches this.
+- `requirements.md` — detailed functional requirements with acceptance criteria. Written during specifying phase, AFTER product-brief is approved and Designer has explored options.
 - `acceptance-criteria.md` — testable success criteria
 - `business-rules.md` — non-technical constraints and rules
 - Diagrams: solution maps, scope trees, user journey maps

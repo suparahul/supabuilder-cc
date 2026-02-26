@@ -37,6 +37,7 @@ Before any agent enters **write** mood, check:
 - [ ] Has the user seen and responded to at least one visual artifact from this agent?
 - [ ] Has the user confirmed the direction (via AskUserQuestion or explicit approval)?
 - [ ] If explore mood ran: has the user chosen from the presented options?
+- [ ] If PM is entering write mood for requirements.md: product-brief.md must be approved AND Designer exploration must be complete
 
 **If any check fails:** Do NOT advance to write. Loop the agent back to discuss or explore.
 

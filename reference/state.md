@@ -9,7 +9,7 @@ Read this when updating state.json, mission.json, performing wiki sync, or manag
 | File | Scope | What it tracks |
 |------|-------|---------------|
 | `supabuilder/state.json` | System-wide | Active missions list, cost mode, settings |
-| `missions/{id}/mission.json` | Per-mission | Phase, mood history, decisions, progress, artifacts |
+| `missions/{id}/mission.json` | Per-mission | Phase, decisions, progress, artifacts |
 
 ---
 
@@ -18,7 +18,6 @@ Read this when updating state.json, mission.json, performing wiki sync, or manag
 Update at natural pause points — not after every micro-action.
 
 **mission.json updates:**
-- When a mood completes for any agent (add to `mood_history`)
 - When a key decision is made (add to `decisions`)
 - When a deliverable status changes (update `progress`)
 - When the mission phase advances (update `phase`)
@@ -35,7 +34,7 @@ Update at natural pause points — not after every micro-action.
 ```json
 {
   "orchestrator_active": true,
-  "supabuilder_version": "0.2.6",
+  "supabuilder_version": "0.2.7",
   "active_missions": [
     { "id": "2026-03-01_new-module_auth", "status": "in_progress", "phase": "specifying" }
   ],
@@ -71,10 +70,6 @@ Update at natural pause points — not after every micro-action.
   "completed": null,
   "paused_reason": null,
   "phase": "specifying",
-  "mood_history": [
-    { "mood": "discuss", "status": "done", "notes": "Scope confirmed" },
-    { "mood": "write", "status": "in_progress", "notes": "Writing specs" }
-  ],
   "decisions": {
     "auth_approach": "JWT with Supabase Auth"
   },
@@ -95,7 +90,6 @@ Update at natural pause points — not after every micro-action.
 | `type` | string | `new-product` / `new-module` / `new-feature` / `enhancement` / `revamp` / `quick-fix` / `integrate` / `migrate` / `scale` / `pivot` |
 | `status` | string | `planned` / `in_progress` / `paused` / `done` / `abandoned` |
 | `phase` | string | `strategy` / `shaping` / `specifying` / `building` |
-| `mood_history` | array | Ordered log of mood transitions |
 | `decisions` | object | Key decisions keyed by decision name |
 | `modules` | array | Which product modules this mission touches |
 | `progress` | object | Deliverable status: `pending` / `in_progress` / `done` |
