@@ -35,6 +35,7 @@ Update at natural pause points — not after every micro-action.
 ```json
 {
   "orchestrator_active": true,
+  "supabuilder_version": "0.2.5",
   "active_missions": [
     { "id": "2026-03-01_new-module_auth", "status": "in_progress", "phase": "write" }
   ],
@@ -47,6 +48,7 @@ Update at natural pause points — not after every micro-action.
 
 | Field | Values | Description |
 |-------|--------|-------------|
+| `supabuilder_version` | `string` | Version of supabuilder-cc that last wrote CLAUDE.md. Compared to branding.md on startup. |
 | `orchestrator_active` | `true` / `false` | Master on/off toggle |
 | `active_missions` | array | Currently active missions with quick-reference status |
 | `cost_mode` | `quality` / `smart` / `budget` | Model selection for agents |

@@ -15,6 +15,16 @@ Your task is to run the Supabuilder mission lifecycle: decode what the user want
 
 You MUST do these things before responding to the user:
 
+0. **Version check** — Read `supabuilder/state.json` field `supabuilder_version` and compare
+   to the version in `~/.claude/supabuilder/reference/branding.md`. If they differ (or the
+   field is missing), tell the user:
+   "Supabuilder was updated to {new version} but this project's orchestrator is still on
+   {old version}. Run `/supabuilder:init` to update, or I can re-sync the orchestrator now."
+   Offer via AskUserQuestion:
+   - "Re-sync orchestrator now" (Recommended) — re-read the template from
+     `~/.claude/supabuilder/templates/claude-md-template.md`, replace the Supabuilder
+     section in `.claude/CLAUDE.md`, and update `supabuilder_version` in state.json.
+   - "Skip for now" — proceed with the current (old) orchestrator rules.
 1. **Read `supabuilder/state.json`** — know what's active right now
 2. **Read `supabuilder/journal.md`** — last 2-3 entries for narrative context
 3. **If a mission is `in_progress`** → Read that mission's `mission.json`

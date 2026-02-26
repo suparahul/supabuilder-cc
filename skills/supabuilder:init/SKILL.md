@@ -50,7 +50,7 @@ Create the `supabuilder/` workspace with all folders:
 - `missions/` (empty)
 - `rules/` with coding-conventions and tech-stack stubs
 - `.archive/` (empty)
-- `state.json` with defaults
+- `state.json` with defaults — after creating, read the version from `~/.claude/supabuilder/reference/branding.md` and write it as the `supabuilder_version` field
 - `journal.md` with template
 
 **No codebase detection here.** Just create the empty structure.
