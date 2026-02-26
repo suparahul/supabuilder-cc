@@ -35,9 +35,9 @@ Update at natural pause points — not after every micro-action.
 ```json
 {
   "orchestrator_active": true,
-  "supabuilder_version": "0.2.5",
+  "supabuilder_version": "0.2.6",
   "active_missions": [
-    { "id": "2026-03-01_new-module_auth", "status": "in_progress", "phase": "write" }
+    { "id": "2026-03-01_new-module_auth", "status": "in_progress", "phase": "specifying" }
   ],
   "cost_mode": "smart",
   "user_control": "hands-on",
@@ -70,7 +70,7 @@ Update at natural pause points — not after every micro-action.
   "started": "2026-03-01",
   "completed": null,
   "paused_reason": null,
-  "phase": "write",
+  "phase": "specifying",
   "mood_history": [
     { "mood": "discuss", "status": "done", "notes": "Scope confirmed" },
     { "mood": "write", "status": "in_progress", "notes": "Writing specs" }
@@ -94,7 +94,7 @@ Update at natural pause points — not after every micro-action.
 | `id` | string | Matches folder name: `YYYY-MM-DD_type_name` |
 | `type` | string | `new-product` / `new-module` / `new-feature` / `enhancement` / `revamp` / `quick-fix` / `integrate` / `migrate` / `scale` / `pivot` |
 | `status` | string | `planned` / `in_progress` / `paused` / `done` / `abandoned` |
-| `phase` | string | `discuss` / `research` / `explore` / `write` / `build` |
+| `phase` | string | `strategy` / `shaping` / `specifying` / `building` |
 | `mood_history` | array | Ordered log of mood transitions |
 | `decisions` | object | Key decisions keyed by decision name |
 | `modules` | array | Which product modules this mission touches |
@@ -106,10 +106,15 @@ Update at natural pause points — not after every micro-action.
 ## Mission Phase Progression
 
 ```
-discuss → research → explore → write → build → done
+strategy → shaping → specifying → building → done
+
+strategy:   Big picture — vision, direction, scope
+shaping:    Exploration — options, tradeoffs, approaches
+specifying: Formal specs — requirements, architecture, design
+building:   Implementation — code, test, ship
 ```
 
-Phase advances when the orchestrator judges the mission as a whole has moved past that kind of thinking. Individual agents may still loop back to earlier moods within a later phase.
+Phase advances when the orchestrator judges the mission as a whole has moved past that kind of thinking. Individual agents may still loop back to earlier moods within a later phase. Note: phases describe the MISSION state; moods (discuss, research, explore, write, build) describe what an AGENT is doing.
 
 ---
 

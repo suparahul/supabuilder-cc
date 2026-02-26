@@ -18,7 +18,7 @@ Output this exactly (monospace block):
           B U I L D E R
 ```
 
-**Version:** `v0.2.5`
+**Version:** `v0.2.6`
 
 ---
 
@@ -51,7 +51,7 @@ Output the header block, then the version and a random tagline on the same line:
 ```
 {ASCII header}
 
-v0.2.5 — "{random tagline}"
+v0.2.6 — "{random tagline}"
 ```
 
 Then proceed with the skill's actual output (separated by a blank line).

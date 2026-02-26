@@ -14,7 +14,7 @@ discuss → research → explore → write → build
 
 | Mood | Purpose | Typical output |
 |------|---------|---------------|
-| **discuss** | Align with user on scope, intent, constraints | Confirmed understanding, scoped intent |
+| **discuss** | Deep-dive with the user — explore every aspect, surface hidden needs, resolve ambiguity branch by branch until genuine shared understanding | Confirmed understanding, all key questions resolved, scoped intent |
 | **research** | Gather information — codebase, web, domain | Findings, patterns, options surfaced |
 | **explore** | Generate options — divergent thinking | 2-3 approaches with tradeoffs, user picks |
 | **write** | Produce formal documents | Spec files the agent owns |

@@ -65,7 +65,7 @@ Depth scales with mission type. You MUST Read `~/.claude/supabuilder/reference/m
 
 ## Build Phase
 
-When the mission enters `build` phase (after TechPM creates tickets), you coordinate implementation — you do NOT write code yourself. Read `~/.claude/supabuilder/reference/build-phase.md` for the full protocol.
+When the mission enters `building` phase (after TechPM creates tickets), you coordinate implementation — you do NOT write code yourself. Read `~/.claude/supabuilder/reference/build-phase.md` for the full protocol.
 
 Key rules:
 - Spawn `general-purpose` agents for each ticket (or small batch). They read specs and implement.

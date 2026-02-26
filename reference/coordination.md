@@ -17,12 +17,12 @@ Every agent spawn includes a context packet with 8 components:
 | Component | What it contains | Always included? |
 |-----------|-----------------|------------------|
 | **Agent identity** | The agent's `.md` file (loaded via Claude Code agent config) | Yes (automatic) |
-| **Mission context** | Mission type, decisions so far, current mood, what's been done (from mission.json) | Yes |
+| **Mission context** | Mission type, current phase (strategy/shaping/specifying/building), key decisions so far, what agents have already done. Describes state — NOT directives. Do NOT tell the agent what to produce or what mood to be in. | Yes |
 | **Upstream summaries** | Structured markdown from agents that already ran — NOT raw Excalidraw JSON | When upstream agents have produced output |
 | **Wiki context** | Summarized excerpts with file links OR file paths for agent to read on demand | Yes |
 | **Rules** | Relevant coding conventions from `rules/` | For Architect, TechPM, QA |
 | **Visual protocol** | Diagram-first directives: "Read `~/.claude/supabuilder/reference/visual-protocol.md` for diagram naming and enforcement rules." | Yes |
-| **Mood instruction** | What mood, what's expected | Yes |
+| **Operating instruction** | Fixed block (do not modify): "You are starting in discuss mood and plan mode. Interview the user relentlessly about every aspect of this work — walk down each branch of the thought tree, clarifying doubts and resolving dependencies one-by-one. Reach a shared understanding before producing anything." | Yes |
 | **Specific file paths** | Explicit paths to read — specs, prototypes, code files | When applicable |
 
 ---
@@ -46,35 +46,24 @@ Both modes include module name(s) so the agent knows which wiki folders are rele
 
 ---
 
-## Spawn Protocol
+## What the Orchestrator Must NOT Do
 
-1. **Prepare the context packet** — gather all 8 components
-2. **Define the mood instruction** — what mood, what's expected
-3. **Define exit conditions** — what "done" looks like for this spawn
-4. **Set max turns** — safety net to prevent infinite loops
-5. **Spawn via Task tool** — use the agent's name as `subagent_type` (one of: `pm`, `designer`, `architect`, `strategist`, `techpm`, `qa`) and the context packet
-   as prompt. **Always set `mode: "plan"`** — the agent must present its approach and get user
-   approval before executing. These names match the agent identity files installed at `~/.claude/agents/`.
-6. **Plan phase covers discuss mood** — In plan mode, the agent:
-   - Reads context, explores relevant files
-   - Uses AskUserQuestion to align with the user (this IS the discuss phase)
-   - Writes a plan: what it understood, what it will produce, what diagrams it will create
-   - Calls ExitPlanMode → user sees the plan and approves
-   - Only then executes (creates diagrams, writes specs, etc.)
+- **Do NOT give task directives.** No "Your Task" heading. No "Produce X" or "Write Y". The agent's identity file defines what it owns and produces. The context packet provides what happened — the agent figures out what to do.
+- **Do NOT set mood or depth.** The operating instruction is fixed. Agents always start in discuss + plan mode and manage their own mood progression.
+- **Do NOT define exit conditions.** The agent's approved plan is the contract. The agent is done when it has delivered what the plan promised.
+- **Do NOT use mood names in mission context.** Use phase names: strategy, shaping, specifying, building.
 
 ---
 
-## Exit Conditions
+## Spawn Protocol
 
-| Mood | Done when... |
-|------|-------------|
-| **discuss** | Agent has presented understanding to user and gotten confirmation |
-| **research** | Agent has gathered findings and presented them |
-| **explore** | Agent has presented 2-3 options and user has chosen direction |
-| **write** | Agent has written the spec file(s) it owns |
-| **build** | Agent has produced its build output (code, test results, review findings) |
-
-If output doesn't meet exit conditions, re-spawn with additional context or escalate to user.
+1. **Prepare the context packet** — gather all components from the table above
+2. **Set max turns** — safety net to prevent infinite loops
+3. **Spawn via Task tool** — use the agent's name as `subagent_type` (one of: `pm`, `designer`, `architect`, `strategist`, `techpm`, `qa`). **Always set `mode: "plan"`**. The operating instruction is already in the context packet — do not add extra directives.
+4. **Plan phase covers discuss** — In plan mode, the agent:
+   - Reads context, interviews the user (AskUserQuestion)
+   - Writes a plan: understanding, approach, [REVIEW] checkpoints, deliverables
+   - User approves → agent exits plan mode → executes the plan
 
 ---
 

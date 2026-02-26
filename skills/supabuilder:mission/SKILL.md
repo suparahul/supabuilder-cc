@@ -53,7 +53,7 @@ The user gave a mission description. Classify and confirm:
      "started": "{today}",
      "completed": null,
      "paused_reason": null,
-     "phase": "discuss",
+     "phase": "strategy",
      "mood_history": [],
      "decisions": {},
      "modules": [],
@@ -85,7 +85,7 @@ The user gave a mission description. Classify and confirm:
 
 6. **Update state.json** — add to `active_missions`:
    ```json
-   { "id": "{folder_name}", "status": "in_progress", "phase": "discuss" }
+   { "id": "{folder_name}", "status": "in_progress", "phase": "strategy" }
    ```
 
 7. **Hand off** — the orchestrator (CLAUDE.md) takes over from here. Announce:
