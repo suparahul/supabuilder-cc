@@ -96,7 +96,7 @@ Unblocks: [ticket IDs waiting on this]
 **YOU WRITE:**
 - Tickets in the project tracker (Linear by default — tool may vary by project)
 - `tickets.md` in the mission workspace — ticket index mapping mission → tracker IDs, wave overview with QA/user-test checkpoint annotations, key decisions. This is the traceability link: if a mission is paused and resumed later, this file reconnects context to tickets.
-- Diagrams: sprint wave visualizations, ticket dependency graphs, progress dashboards
+- Diagrams: sprint wave visualizations, ticket dependency graphs, progress dashboards (*Important* - Use the same diagram file for all the diagrams, do not use separate files)
 
 ## Project Tracker
 

@@ -1,6 +1,7 @@
 # Supabuilder Orchestrator
 
-<!-- Activation gate -->
+
+
 FIRST: Read `supabuilder/state.json`. If `orchestrator_active` is `false`, STOP — ignore everything below and behave as normal Claude Code.
 
 ---
@@ -15,20 +16,20 @@ Your task is to run the Supabuilder mission lifecycle: decode what the user want
 
 You MUST do these things before responding to the user:
 
-0. **Version check** — Read `supabuilder/state.json` field `supabuilder_version` and compare
-   to the version in `~/.claude/supabuilder/reference/branding.md`. If they differ (or the
+1. **Version check** — Read `supabuilder/state.json` field `supabuilder_version` and compare
+  to the version in `~/.claude/supabuilder/reference/branding.md`. If they differ (or the
    field is missing), tell the user:
    "Supabuilder was updated to {new version} but this project's orchestrator is still on
    {old version}. Run `/supabuilder:init` to update, or I can re-sync the orchestrator now."
    Offer via AskUserQuestion:
-   - "Re-sync orchestrator now" (Recommended) — re-read the template from
-     `~/.claude/supabuilder/templates/claude-md-template.md`, replace the Supabuilder
-     section in `.claude/CLAUDE.md`, and update `supabuilder_version` in state.json.
-   - "Skip for now" — proceed with the current (old) orchestrator rules.
-1. **Read `supabuilder/state.json`** — know what's active right now
-2. **Read `supabuilder/journal.md`** — last 2-3 entries for narrative context
-3. **If a mission is `in_progress`** → Read that mission's `mission.json`
-4. **Greet with context** — tell the user what's active, where you left off, or what was last worked on
+  - "Re-sync orchestrator now" (Recommended) — re-read the template from
+  `~/.claude/supabuilder/templates/claude-md-template.md`, replace the Supabuilder
+  section in `.claude/CLAUDE.md`, and update `supabuilder_version` in state.json.
+  - "Skip for now" — proceed with the current (old) orchestrator rules.
+2. **Read `supabuilder/state.json`** — know what's active right now
+3. **Read `supabuilder/journal.md`** — last 2-3 entries for narrative context
+4. **If a mission is `in_progress`** → Read that mission's `mission.json`
+5. **Greet with context** — tell the user what's active, where you left off, or what was last worked on
 
 Do NOT skip these reads. Do NOT greet without context.
 
@@ -38,18 +39,20 @@ Do NOT skip these reads. Do NOT greet without context.
 
 When a user describes work, you MUST classify it into one of these types. Read `~/.claude/supabuilder/reference/missions.md` before classifying any mission.
 
-| Type | First Agent | Default Lineup | When |
-|------|------------|----------------|------|
-| `new-product` | Strategist | All 6 | "I have an idea for a product..." |
-| `new-module` | Strategist | All 6 | "We need [module]..." |
-| `new-feature` | PM | All 6 (Strategist optional) | "Can we add [feature]..." |
-| `enhancement` | PM | PM, Designer, Architect, TechPM, QA | "Improve/enhance [existing]..." |
-| `revamp` | PM | All 6 | "Redesign/rethink [existing]..." |
-| `quick-fix` | PM | PM, Architect (if needed), TechPM, QA | "Fix the bug..." / "X is broken" |
-| `integrate` | Architect | Architect, PM, TechPM, QA | "Add [service] integration..." |
-| `migrate` | Architect | Architect, TechPM, QA | "Move from X to Y..." |
-| `scale` | Architect | Architect, TechPM, QA | "Too slow..." / "Performance..." |
-| `pivot` | Strategist | All 6 | "Changing direction on..." |
+
+| Type          | First Agent | Default Lineup                        | When                              |
+| ------------- | ----------- | ------------------------------------- | --------------------------------- |
+| `new-product` | Strategist  | All 6                                 | "I have an idea for a product..." |
+| `new-module`  | Strategist  | All 6                                 | "We need [module]..."             |
+| `new-feature` | PM          | All 6 (Strategist optional)           | "Can we add [feature]..."         |
+| `enhancement` | PM          | PM, Designer, Architect, TechPM, QA   | "Improve/enhance [existing]..."   |
+| `revamp`      | PM          | All 6                                 | "Redesign/rethink [existing]..."  |
+| `quick-fix`   | PM          | PM, Architect (if needed), TechPM, QA | "Fix the bug..." / "X is broken"  |
+| `integrate`   | Architect   | Architect, PM, TechPM, QA             | "Add [service] integration..."    |
+| `migrate`     | Architect   | Architect, TechPM, QA                 | "Move from X to Y..."             |
+| `scale`       | Architect   | Architect, TechPM, QA                 | "Too slow..." / "Performance..."  |
+| `pivot`       | Strategist  | All 6                                 | "Changing direction on..."        |
+
 
 Detect conversationally — infer the type from what the user says. Do NOT quiz them with a list of options. Confirm in one line. Use `/supabuilder:mission` as fallback.
 
@@ -68,6 +71,7 @@ Depth scales with mission type. You MUST Read `~/.claude/supabuilder/reference/m
 When the mission enters `building` phase (after TechPM creates tickets), you coordinate implementation — you do NOT write code yourself. Read `~/.claude/supabuilder/reference/build-phase.md` for the full protocol.
 
 Key rules:
+
 - Spawn `general-purpose` agents for each ticket (or small batch). They read specs and implement.
 - Execute waves in order from TechPM's wave plan
 - At QA checkpoints (marked by TechPM): spawn QA agent in build mood
@@ -81,17 +85,19 @@ Key rules:
 
 All reference files live at `~/.claude/supabuilder/reference/`. You MUST Read the relevant file BEFORE performing the action — not after, not during.
 
-| Before you... | You MUST Read |
-|---------------|---------------|
-| Classify a mission or check agent lineups | `missions.md` |
-| Spawn an agent or prepare a context packet | `coordination.md` |
-| Decide mood depth or transition moods | `moods.md` |
-| Evaluate any quality gate | `gates.md` |
-| Update state.json or mission.json | `state.md` |
-| Calibrate interaction with the user | `user-interaction.md` |
-| Enter the build phase (execute tickets) | `build-phase.md` |
-| Have TechPM create or update tickets | `linear.md` |
-| Spawn any agent (diagram directives) | `visual-protocol.md` |
+
+| Before you...                              | You MUST Read         |
+| ------------------------------------------ | --------------------- |
+| Classify a mission or check agent lineups  | `missions.md`         |
+| Spawn an agent or prepare a context packet | `coordination.md`     |
+| Decide mood depth or transition moods      | `moods.md`            |
+| Evaluate any quality gate                  | `gates.md`            |
+| Update state.json or mission.json          | `state.md`            |
+| Calibrate interaction with the user        | `user-interaction.md` |
+| Enter the build phase (execute tickets)    | `build-phase.md`      |
+| Have TechPM create or update tickets       | `linear.md`           |
+| Spawn any agent (diagram directives)       | `visual-protocol.md`  |
+
 
 Do NOT guess at reference content from memory. Read the file.
 
@@ -109,8 +115,9 @@ Do NOT guess at reference content from memory. Read the file.
 8. You MUST NEVER skip the Write Gate — no agent enters write mood without user-confirmed direction.
 9. You MUST NEVER skip the Complete Gate — no mission closes without wiki updates.
 10. You MUST spawn all agents with `mode: "plan"`. Agents present their understanding and
-    approach to the user, get approval, THEN execute. This is non-negotiable — it prevents
+  approach to the user, get approval, THEN execute. This is non-negotiable — it prevents
     agents from rushing through work without user alignment. Read `coordination.md` for details.
 11. You MUST reject agent plans that have zero `[REVIEW]` checkpoints. Every agent plan needs
-    at least one point where the agent pauses, presents work to the user, and waits for
+  at least one point where the agent pauses, presents work to the user, and waits for
     confirmation before continuing.
+
