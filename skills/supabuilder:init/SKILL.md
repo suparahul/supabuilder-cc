@@ -50,8 +50,9 @@ Create the `supabuilder/` workspace with all folders:
 - `missions/` (empty)
 - `rules/` with coding-conventions and tech-stack stubs
 - `.archive/` (empty)
-- `state.json` with defaults — after creating, read the version from `~/.claude/supabuilder/reference/branding.md` and write it as the `supabuilder_version` field
-- `journal.md` with template
+- `state.json` with defaults (includes `product_name: null`, `product_description: null`)
+- `settings.json` with defaults — after creating, read the version from `~/.claude/supabuilder/reference/branding.md` and write it as the `supabuilder_version` field
+- `memory.md` with template
 
 **No codebase detection here.** Just create the empty structure.
 
@@ -112,7 +113,20 @@ AskUserQuestion:
   - "Read this file" — user points to a doc (follow up to ask which file)
   - "Skip, just scan" — proceed cold
 
-If user provides context → hold it for guiding the scan.
+If user provides context → hold it for guiding the scan. Also extract a short **product name** and **one-liner description** from what the user said and write them to `supabuilder/state.json` as `product_name` and `product_description`. If the user skips the interview ("Skip, just scan"), leave both fields null — they'll get populated during the cross-cutting pass or first mission.
+
+### 2a-ii. Ask about user types
+
+AskUserQuestion:
+
+- Header: "Users"
+- Question: "Who uses this product? Are there different types of users with different roles or access levels? (e.g., admin vs member, coach vs athlete vs parent, teacher vs student vs director)"
+- Options:
+  - "Single user type" — one kind of user, no role distinctions
+  - "Multiple user types" — user describes the different types
+  - "Not sure yet" — will define later during missions
+
+If multiple user types → capture in the interview context. These will be written to `product-wiki/overview.md > ## User Types` during the cross-cutting pass (Step 4), and validated against auth/permissions detected during the wave scan.
 
 ### 2b. Quick project detection
 
@@ -176,6 +190,8 @@ From the same scan findings, extract two summaries:
 
 - **Product lens:** what this area does for users, flows, business rules, constraints (see init-product-wiki.md "What to Extract")
 - **Code lens:** architecture, patterns, data models, dependencies, key abstractions (see init-code-wiki.md "Scan Protocol")
+
+- **Design tokens:** If theme/style config files found, note paths in `product-wiki/ui-kit/README.md` (see init-product-wiki.md)
 
 If dual-lens processing reveals gaps (e.g., product lens spots a flow but code lens needs to trace it deeper), targeted follow-up scans are fine. The point is: no redundant full-area scan.
 
@@ -248,11 +264,12 @@ After all area waves are complete, synthesize cross-cutting content. Read alread
 
 Finalize:
 
-- `product-wiki/overview.md` — full product story synthesized from all module READMEs
+- `product-wiki/overview.md` — full product story synthesized from all module READMEs + **user types** (from interview + detected auth/permissions)
 - `code-wiki/architecture-map.md` — connections between areas, integrations
 - `code-wiki/patterns.md` — patterns observed across areas
 - `code-wiki/data-models.md` — cross-area entities and relationships
 - Final versions of both overview diagrams
+- `product-wiki/ui-kit/README.md` — consolidate detected design token sources from all areas
 
 Present final diagrams to user for confirmation.
 

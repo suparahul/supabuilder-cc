@@ -1,0 +1,3 @@
+Please do the following git operations on this branch:
+1. Commit and push all the code so that we have it saved.
+2. Create a new branch where we are going to make the radical orchestrator as the primary template file, and then remove all the reference files, our install and maybe init commands as well.

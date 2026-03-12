@@ -42,6 +42,7 @@ Using Glob and Grep tools:
 3. **State management** — Redux, Context, Zustand, signals, etc.
 4. **Component patterns** — File naming, co-location, shared components location
 5. **Testing patterns** — Test file location, naming, frameworks used
+6. **Design/theme patterns** — Theme files, design token sources, component style libraries, shared style utilities
 
 ### Step 4: Module-level scan
 For each detected module:

@@ -6,7 +6,7 @@ Read this when calibrating user interaction level, managing transparency, or han
 
 ## User Control Level
 
-Setting in `state.json` controlling how much the user sees and approves.
+Setting in `settings.json` controlling how much the user sees and approves.
 
 | Level | What the user sees | Best for |
 |-------|-------------------|----------|
@@ -69,18 +69,8 @@ Default to AskUserQuestion for decisions. Use free text for follow-ups.
 
 Controls which models agents use:
 
-| Mode | Agent models | Debate rounds |
-|------|-------------|---------------|
-| **quality** | Opus for all eligible agents | Up to 5 rounds |
-| **smart** (default) | Opus for PM, Designer, Strategist, Architect. Sonnet for TechPM, QA. | Up to 3 rounds |
-| **budget** | Sonnet for all except critical decisions | 1 round (no debate) |
-
----
-
-## Debate Visibility
-
-| Setting | What the user sees |
-|---------|-------------------|
-| **key_decisions** (default) | Agents reason privately. User sees 2-3 options at decision points. |
-| **show_all** | All agent reasoning surfaced to user. |
-| **summaries_only** | Final recommendation only. User approves or redirects. |
+| Mode | Agent models | Best for |
+|------|-------------|----------|
+| **quality** | Opus for all eligible agents | Complex products, critical missions |
+| **smart** (default) | Opus for PM, Designer, Strategist, Architect. Sonnet for TechPM, QA. | Standard work — balances quality and cost |
+| **budget** | Sonnet for all except critical decisions | Quick fixes, well-understood domains |

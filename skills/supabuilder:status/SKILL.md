@@ -14,39 +14,39 @@ Lightweight read-only status check. No orchestrator reasoning needed — just re
 
 0. **Read `~/.claude/supabuilder/reference/branding.md` and output the header** (ASCII art, version, random tagline).
 
-1. **Read `supabuilder/state.json`**
-   - If doesn't exist: "No Supabuilder workspace found. Run `/supabuilder:init` to get started."
+1. **Read `supabuilder/state.json`** and **`supabuilder/settings.json`**
+   - If state.json doesn't exist: "No Supabuilder workspace found. Run `/supabuilder:init` to get started."
 
 2. **Read active mission files** — for each entry in `active_missions`, read `supabuilder/missions/{id}/mission.json`
 
-3. **Read journal** — last 3-4 lines of `supabuilder/journal.md` for recent context
-
-4. **Present status:**
+3. **Present status:**
 
 ### If active missions exist:
 
 ```
 Supabuilder Status
 
+Latest: {latest field from state.json}
+
 Mission: {name} ({type})
   Phase: {phase}
-  Mood history: {mood_sequence_with_status}
+  Last update: {last_update from mission.json}
+  Pipeline progress:
+    {agent}: {status}  (for each in progress field)
   Decisions: {count} made
   {list key decisions, 3-4 max}
-  Deliverables:
-    {deliverable}: {status}
-    ...
+  Flags: {count of agent_handoff_notes, if any}
 
 {If multiple active missions, show each}
 
-Settings:
+{If past_missions exist:}
+Past missions: {count}
+  {list 3 most recent: id, type, completed date}
+
+Settings: (from settings.json)
   Orchestrator: {on/off}
   Cost mode: {cost_mode}
   User control: {user_control}
-  Debate visibility: {debate_visibility}
-
-Recent journal:
-  {last entry, 3-4 lines}
 ```
 
 ### If no active missions:
@@ -56,15 +56,14 @@ Supabuilder Status
 
 No active missions.
 
-Settings:
+{If past_missions exist:}
+Past missions: {count}
+  {list 3 most recent: id, type, completed date}
+
+Settings: (from settings.json)
   Orchestrator: {on/off}
   Cost mode: {cost_mode}
   User control: {user_control}
-  Debate visibility: {debate_visibility}
-
-{If journal has entries:}
-Last activity:
-  {last journal entry, 3-4 lines}
 
 Start a new mission with /supabuilder:mission or just tell me what you want to build.
 ```

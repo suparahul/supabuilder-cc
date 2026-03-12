@@ -36,6 +36,14 @@ Both wikis extract from the **same scan** — one exploration pass reads the are
 8. **README, docs/ folder** → existing product documentation
 9. **Test descriptions** → "it should..." statements reveal intended behavior
 
+### Design Token Detection (during wave scan)
+
+During the unified area scan, detect design token sources. This piggybacks on the code-lens pass — no separate scan.
+
+**What to detect:** theme configuration files (`tailwind.config.js`, Flutter `ThemeData`, JS theme objects), shared color/typography/spacing constants, CSS custom properties, component library styles.
+
+**What to do:** Note token source file paths and framework type in `product-wiki/ui-kit/README.md` under a "Sources" section. Do NOT extract into CSS during init — that requires Designer judgment.
+
 ---
 
 ## Writing Product-Wiki
@@ -185,7 +193,7 @@ For each area:
 ### Cross-Cutting Pass (runs after all waves)
 
 After all areas are scanned and confirmed:
-- Finalize `product-wiki/overview.md` — full product story synthesized from all module READMEs
+- Finalize `product-wiki/overview.md` — full product story synthesized from all module READMEs, plus user types from interview and auth/permissions detection
 - Finalize `product-wiki/product-overview.excalidraw` — complete product map with all areas, flows, and user types
 
 **Read already-written per-area files** rather than re-scanning code. The per-wave READMEs are the input for the cross-cutting pass.

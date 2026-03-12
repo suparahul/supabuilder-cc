@@ -14,12 +14,12 @@ When Linear MCP is configured (check `.mcp.json`), these tool patterns are avail
 
 ## Ticket Creation Pattern
 
-1. Read mission.json `tracker` field for team/project context
+1. Read mission.json `ticket_tracker` field for team/project context
 2. Create parent issues as per TechPM's breakdown
 3. Create subtasks under the parent
 4. Set dependencies between tickets
 5. Add mission id in the task tags
-6. Update mission.json `tracker.parent_ticket` with the parent issue ID
+6. Update mission.json with the parent issue ID reference
 
 ## When Linear Is NOT Configured
 

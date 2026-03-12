@@ -22,6 +22,9 @@ const OLD_SKILL_DIRS = ['start', 'sprint', 'develop', 'review', 'mode', 'init', 
 // Old agent files to clean up on upgrade
 const OLD_AGENT_FILES = ['supabuilder-shared-context.md'];
 
+// Old reference files to clean up on upgrade (removed in v0.3.0)
+const OLD_REFERENCE_FILES = ['moods.md', 'visual-protocol.md'];
+
 // Old files to warn about
 const OLD_FILES = [
   { path: path.join(CLAUDE_DIR, 'supabuilder-context.md'), name: 'supabuilder-context.md' },
@@ -125,7 +128,7 @@ console.log('  ███████║╚██████╔╝██║     
 console.log('  ╚══════╝ ╚═════╝ ╚═╝     ╚═╝  ╚═╝');
 console.log('           B U I L D E R');
 console.log('');
-console.log(`  v0.2.7 — "${tagline}"`);
+console.log(`  v0.3.0 — "${tagline}"`);
 console.log('');
 
 // Ensure directories exist
@@ -216,6 +219,19 @@ for (const oldAgent of OLD_AGENT_FILES) {
 }
 if (oldAgentsRemoved > 0) {
   console.log(`  Upgrade: removed ${oldAgentsRemoved} old agent files (content moved to reference files)\n`);
+}
+
+// 5c. Upgrade cleanup — remove old reference files
+let oldRefsRemoved = 0;
+for (const oldRef of OLD_REFERENCE_FILES) {
+  const refPath = path.join(REFERENCE_DIR, oldRef);
+  if (fs.existsSync(refPath)) {
+    fs.unlinkSync(refPath);
+    oldRefsRemoved++;
+  }
+}
+if (oldRefsRemoved > 0) {
+  console.log(`  Upgrade: removed ${oldRefsRemoved} old reference files (moods.md, visual-protocol.md)\n`);
 }
 
 // 6. Warn about old files

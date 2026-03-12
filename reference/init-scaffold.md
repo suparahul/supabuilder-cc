@@ -13,7 +13,10 @@ supabuilder/
 ├── product-wiki/
 │   ├── overview.md
 │   ├── product-overview.excalidraw
-│   └── modules/
+│   ├── strategy/
+│   ├── modules/
+│   └── ui-kit/
+│       └── README.md
 ├── code-wiki/
 │   ├── README.md
 │   ├── architecture-map.md
@@ -26,7 +29,8 @@ supabuilder/
 │   ├── coding-conventions.md
 │   └── tech-stack.md
 ├── state.json
-├── journal.md
+├── settings.json
+├── memory.md
 └── .archive/
 ```
 
@@ -45,6 +49,13 @@ supabuilder/
 
 ## User Types
 
+<!-- Who uses this product? List each distinct user type with:
+- Role name (e.g., Admin, Coach, Student)
+- What they can do (key capabilities/permissions)
+- How their experience differs from other types
+- Whether they are the buyer, the end user, or both
+Populated by PM during shaping. Strategist may seed during strategy phase. -->
+
 ## History
 ```
 
@@ -52,6 +63,19 @@ supabuilder/
 Empty Excalidraw canvas:
 ```json
 {"type":"excalidraw","version":2,"source":"supabuilder-init","elements":[],"appState":{"gridSize":null,"viewBackgroundColor":"#ffffff"},"files":{}}
+```
+
+### `product-wiki/ui-kit/README.md`
+```markdown
+# UI Kit
+
+<!-- Design language for HTML/CSS prototypes -->
+<!-- Created by the Designer agent — tokens, components, and preview -->
+
+## Status
+Not yet populated. The Designer agent creates this during the first design mission.
+
+## History
 ```
 
 ### `code-wiki/README.md`
@@ -130,25 +154,40 @@ Empty Excalidraw canvas (same as product-overview).
 
 ```json
 {
-  "orchestrator_active": true,
-  "supabuilder_version": "0.2.7",
+  "product_name": null,
+  "product_description": null,
+  "latest": null,
   "active_missions": [],
-  "cost_mode": "smart",
-  "user_control": "hands-on",
-  "debate_visibility": "key_decisions",
-  "last_module_touched": null
+  "past_missions": []
 }
 ```
 
 ---
 
-## journal.md Default
+## settings.json Default
+
+```json
+{
+  "orchestrator_active": true,
+  "supabuilder_version": "0.3.0",
+  "cost_mode": "smart",
+  "user_control": "hands-on"
+}
+```
+
+---
+
+## memory.md Default
 
 ```markdown
-# Journal
+# Project Memory
+<!-- Curated product evolution — key decisions, strategic direction, technical choices that shape the product across missions. NOT a log. Demand-loaded only when past context is needed. -->
 
-<!-- Running narrative maintained by the orchestrator. Newest entries first. -->
-<!-- Updated at mission completion. Read top 2-3 entries at session start. -->
+## Product Decisions
+<!-- Cross-cutting decisions that affect the whole product. Add as they happen — don't wait for mission completion. -->
+
+## Completed Missions
+<!-- Brief mission summaries added at completion. Date, type, what was built, key outcomes. -->
 ```
 
 ---

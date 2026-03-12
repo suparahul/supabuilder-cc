@@ -17,7 +17,7 @@ The user gave a mission description. Classify and confirm:
 
 1. **Read state** — `supabuilder/state.json` for current state
    - If no state.json: "Run `/supabuilder:init` first to set up the workspace."
-   - If `orchestrator_active` is false: "Orchestrator is off. Run `/supabuilder:settings on` to enable."
+   - Read `supabuilder/settings.json`. If `orchestrator_active` is false: "Orchestrator is off. Run `/supabuilder:settings on` to enable."
 
 2. **Classify** the description into a mission type.
    Read `~/.claude/supabuilder/reference/missions.md` for classification signals and mission types.
@@ -27,22 +27,19 @@ The user gave a mission description. Classify and confirm:
 
    If ambiguous, use AskUserQuestion with the top 2-3 likely types.
 
-4. **Check for active missions** — if another mission is `in_progress` in state.json:
-   > "You have an active mission: **{name}** ({phase} phase). Want to pause it and start this new one, or continue the active one?"
-
-   Options via AskUserQuestion:
-   - "Pause {active_mission} and start new mission"
-   - "Continue working on {active_mission}"
-   - "Start new mission alongside (multi-mission)"
-
-5. **Create mission folder:**
+4. **Create mission folder with all subfolders upfront:**
    ```
    supabuilder/missions/{YYYY-MM-DD}_{type}_{slugified-name}/
    ├── mission.json
-   └── _overview.md
+   ├── journal.md
+   ├── _overview.md
+   ├── strategy/
+   ├── specs/
+   ├── prototypes/
+   └── diagrams/
    ```
 
-   **mission.json** — initialize with:
+   **mission.json** — initialize with v3 schema. Read `~/.claude/supabuilder/reference/state.md` for the full schema. Key fields:
    ```json
    {
      "id": "{folder_name}",
@@ -52,17 +49,36 @@ The user gave a mission description. Classify and confirm:
      "status": "in_progress",
      "started": "{today}",
      "completed": null,
-     "paused_reason": null,
      "phase": "strategy",
+     "last_update": "Mission created. Starting pipeline.",
      "decisions": {},
+     "progress": {
+       "strategist": "pending",
+       "pm_brief": "pending",
+       "designer": "pending",
+       "pm_requirements": "pending",
+       "architect": "pending",
+       "techpm": "pending",
+       "build": "pending",
+       "qa": "pending"
+     },
+     "agent_handoff_notes": [],
      "modules": [],
-     "progress": {},
-     "tracker": null,
-     "artifacts": {
-       "overview": "_overview.md",
-       "diagrams": "diagrams/"
-     }
+     "ticket_tracker": null
    }
+   ```
+
+   **Set `not_needed` defaults per mission type group** (read `~/.claude/supabuilder/reference/missions.md` for group rules):
+   - Group 1 (New Product): all pending
+   - Group 2 (New Module/Feature/Revamp/Pivot): all pending
+   - Group 3 (Integrate/Migrate/Scale): `strategist`, `designer`, `pm_requirements` → `not_needed`
+   - Group 4 (Enhancement): `strategist` → `not_needed`
+   - Group 5 (Quick Fix): `strategist`, `designer`, `pm_requirements` → `not_needed`
+
+   **journal.md** — initialize with:
+   ```markdown
+   # Mission Journal
+   <!-- Detailed log of actions, changes, decisions for this mission -->
    ```
 
    **_overview.md** — initialize with:
@@ -82,15 +98,16 @@ The user gave a mission description. Classify and confirm:
    <!-- Living discussion log -->
    ```
 
-6. **Update state.json** — add to `active_missions`:
+5. **Update state.json** — add to `active_missions` and update `latest`:
    ```json
-   { "id": "{folder_name}", "status": "in_progress", "phase": "strategy" }
+   { "id": "{folder_name}", "type": "{classified_type}", "phase": "strategy" }
    ```
+   Update `latest` field: "New mission: {name} ({type}). Starting pipeline."
 
-7. **Hand off** — the orchestrator (CLAUDE.md) takes over from here. Announce:
-   > "Mission created: `{folder_name}`. Starting with {first_agent} in discuss mood."
+6. **Hand off** — the orchestrator (CLAUDE.md) takes over from here. Announce:
+   > "Mission created: `{folder_name}`. Starting with {first_agent}."
 
-   Then begin spawning the first agent per the mission type's default lineup.
+   Then begin following the fixed pipeline for this mission type group.
 
 ---
 
