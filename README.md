@@ -6,6 +6,8 @@ You describe what you want. Six AI agents — PM, Designer, Strategist, Architec
 
 ## Your Team
 
+![Your AI Product Team](supabuilder-agent-team.png)
+
 You talk to one person: the **Orchestrator** (your product lead). It manages the whole team.
 
 | Agent | What they do |
@@ -31,6 +33,8 @@ Start anywhere. The team adapts to the size of what you need.
 - **Ship a new product** — from zero to deployed MVP: strategy, specs, design, code
 
 ## How It Works
+
+![Mission Flow](supabuilder-mission-explainer.png)
 
 1. **Describe your idea** — just say what you want in plain English
 2. **Team explores and discusses** — agents ask questions, research options, debate tradeoffs
