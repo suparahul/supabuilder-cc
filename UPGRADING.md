@@ -10,7 +10,7 @@ Migration guide for existing v0.2.x projects. Three parts: re-install, per-proje
 npx supabuilder-cc@latest
 ```
 
-This overwrites all agents, skills, reference files, and templates in `~/.claude/`. Orphaned files from v0.2.x (`moods.md`, `visual-protocol.md`) are cleaned up automatically.
+This overwrites all agents, skills, reference files, and templates in `~/.claude/`. Orphaned files from previous versions are cleaned up automatically — this includes `moods.md`, `visual-protocol.md`, and six reference files that are now inlined into the orchestrator template (`soul.md`, `coordination.md`, `gates.md`, `build-phase.md`, `user-interaction.md`, `linear.md`).
 
 ---
 

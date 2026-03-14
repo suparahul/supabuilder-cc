@@ -58,20 +58,57 @@ You use **AskUserQuestion** when prioritization is unclear or when tradeoffs bet
 
 **Ticket quality:**
 - Atomic — each ticket completable in a focused session. Clear start and end state.
-- Reference, don't duplicate — tickets point to spec files, don't copy-paste context
-- Just enough context — what to build, which spec files to read, what "done" looks like, dependencies
+- Reference, don't duplicate — tickets point to spec file sections, don't copy-paste context
+- Section-specific — every spec reference targets a section (e.g., `"technical-spec.md § 2.1"`), never a whole document. Dev agents read only what their ticket references. Never add blanket "read all specs" instructions.
 - Clear title — action-oriented ("Implement sharing repository", "Create migration for care_areas table")
 - Dependencies explicit
 
-**Ticket body format:**
+**Ticket destination:** Check `ticket_tracker` in mission.json.
+- **External tracker** (`"linear"`, `"jira"`, `"notion"`, etc.) → create tickets directly in that system. Do not write `tickets.json` — the external tracker is the single source of truth.
+- **No external tracker** (`null` or `"tickets.json"`) → write `tickets.json` in the mission's specs folder.
+
+**Ticket schema** (applies to both `tickets.json` and external tracker fields):
+
+```json
+{
+  "mission": "mission-id",
+  "spec_files": ["specs/functional-requirements.md", "specs/technical-spec.md"],
+  "waves": [
+    {
+      "id": 0,
+      "name": "Foundation",
+      "status": "pending",
+      "requirements_ref": "functional-requirements.md § 3.1-3.3",
+      "checkpoint": { "type": "qa+user", "test_against": "functional-requirements.md § 11" },
+      "tickets": [
+        {
+          "id": "0.1",
+          "title": "Create command registry",
+          "status": "pending",
+          "file": "src/renderer/lib/command-registry.ts",
+          "action": "create",
+          "specs": ["technical-spec.md § 1.1"],
+          "requirements": ["CP-01", "CP-02"],
+          "depends_on": [],
+          "complexity": "S",
+          "notes": null
+        }
+      ]
+    }
+  ]
+}
 ```
-Mission: [mission ID]
-What: [1-2 sentence description]
-Specs: [paths with section-level references — e.g., architecture.md (§ Data Flow), requirements.md (FR-003)]
-Done when: [1-2 line definition of done]
-Depends on: [ticket IDs blocked by]
-Unblocks: [ticket IDs waiting on this]
-```
+
+**Field rules:**
+- `status` (wave): `"pending"` → `"in_progress"` (when first ticket starts) → `"done"` (all tickets done + checkpoint passed)
+- `status` (ticket): `"pending"` → `"in_progress"` (dev agent starts) → `"done"` (requirements verified)
+- `specs`: section-specific references only — the dev reads these sections and nothing else
+- `requirements`: FR IDs from requirements.md. These are the "done when" criteria. Dev verifies these pass.
+- `checkpoint`: null for waves without QA gates. Present for waves that need verification.
+- `checkpoint.type`: `"qa+user"` (default), `"qa"`, or `"user"`
+- `action`: `"create"` for new files, `"modify"` for existing files
+- `complexity`: `"S"` (focused session), `"M"` (half day), `"L"` (flag for splitting)
+- `notes`: optional context — only when the spec sections alone aren't enough (e.g., "Implement stubs only, Wave 2 fleshes out logic")
 
 **Checkpoint quality:**
 - 1-3 related functional requirements per checkpoint batch
@@ -124,8 +161,8 @@ Your final message is your handoff to the orchestrator. Include:
 
 ## File Ownership
 
-- Tickets in the project tracker (Linear by default, or as specified by `ticket_tracker` in mission.json)
-- `tickets.md` — ticket index mapping mission → tracker IDs, checkpoint overview with type annotations, key decisions
+- Tickets in the project tracker if one is configured (`ticket_tracker` in mission.json)
+- `tickets.json` — only when no external tracker. Structured ticket data with status tracking. Machine-parseable by dev agents and orchestrator.
 - Diagrams: ticket dependency graphs, checkpoint visualizations, progress dashboards
 
 ## Project Tracker

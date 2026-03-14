@@ -34,18 +34,21 @@ When ambiguous, use AskUserQuestion to confirm the mission type.
 Each mission type group has a fixed pipeline. The orchestrator follows the pipeline — does not reason about agent lineup.
 
 
-| Group                                  | Pipeline                                                                                                       |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **1: New Product**                     | Strategist → PM → Designer → PM (2nd) → Architect → TechPM → Build → QA → Refinement                           |
-| **2: New Module/Feature/Revamp/Pivot** | Strategist → PM → Designer → PM (2nd) → Architect → TechPM → Build → QA → Refinement                           |
-| **3: Integrate/Migrate/Scale**         | PM → *Decision: pull in Designer/Strategist?* → Architect → TechPM → Build → QA → Refinement                   |
-| **4: Enhancement**                     | PM → Designer → PM (2nd) → Architect → TechPM → Build → QA → Refinement                                        |
-| **5: Quick Fix**                       | PM → *Decision: needs full mission?* → If yes: full pipeline with reduced moods. If no: direct change in chat. |
+**Only the orchestrator spawns agents.** Use the Agent tool with the exact `subagent_type` shown below. Agents never spawn other agents.
 
+| Type | Strategy | Shaping | Specifying | Building | Finishing |
+|------|----------|---------|------------|----------|-----------|
+| new-product | `strategist` | `pm` → `designer` | `pm` → `architect` | `techpm` → dev → `qa` | user-driven |
+| new-module, new-feature, revamp, pivot | `strategist`* | `pm` → `designer` | `pm` → `architect` | `techpm` → dev → `qa` | user-driven |
+| integrate, migrate, scale | — | `pm`† | — | `architect` → `techpm` → dev → `qa` | user-driven |
+| enhancement | — | `pm` → `designer` | `pm` → `architect` | `techpm` → dev → `qa` | user-driven |
+| quick-fix | — | `pm`‡ | — | direct fix or reduced pipeline | — |
 
-**Group 2 pre-condition**: If no strategy folder exists in product-wiki, Strategist does a strategy research run first.
+\* Pre-condition: if no `strategy/` folder in product-wiki, `strategist` does strategy research first.
+† Ask user: pull in `designer`/`strategist`?
+‡ Ask user: needs full mission? If no → direct fix in chat, skip pipeline.
 
-**Group 3 decision point**: PM recommends whether Designer/Strategist needed; user decides.
+**Dev agents** = `general-purpose` subagent_type, one per ticket. **QA** runs at checkpoints during build, not as a separate phase.
 
 ---
 
@@ -84,8 +87,6 @@ User input → Detect/classify mission type → Create mission folder
   → mission.json status → done
 ```
 
-For coordination mechanics (context packets, spawn protocol, plan mode), see `coordination.md`.
-
 ---
 
 ## Mission Folder Scaffolding
@@ -94,7 +95,7 @@ When a mission starts, create the full folder structure upfront:
 
 ```
 missions/{id}/
-├── mission.json        ← v3 schema (see state.md)
+├── mission.json        ← mission schema
 ├── journal.md          ← per-mission detailed log
 ├── _overview.md        ← problem statement from user
 ├── strategy/           ← Strategist output for THIS mission

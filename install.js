@@ -23,7 +23,11 @@ const OLD_SKILL_DIRS = ['start', 'sprint', 'develop', 'review', 'mode', 'init', 
 const OLD_AGENT_FILES = ['supabuilder-shared-context.md'];
 
 // Old reference files to clean up on upgrade (removed in v0.3.0)
-const OLD_REFERENCE_FILES = ['moods.md', 'visual-protocol.md'];
+const OLD_REFERENCE_FILES = [
+  'moods.md', 'visual-protocol.md',
+  'soul.md', 'coordination.md', 'gates.md',
+  'build-phase.md', 'user-interaction.md', 'linear.md'
+];
 
 // Old files to warn about
 const OLD_FILES = [

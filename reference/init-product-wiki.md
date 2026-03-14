@@ -134,7 +134,7 @@ Old specs often contain architecture decisions mixed with product specs. Extract
 
    ## Skipped
    - {module}/screens.md — product is live, mockups are outdated
-   - {module}/tickets.md — historical, not needed in wiki
+   - {module}/tickets.json — historical, not needed in wiki
    - ...
 
    ## Drift Detected
@@ -157,7 +157,7 @@ Old specs often contain architecture decisions mixed with product specs. Extract
 | `{module}/architecture.md` | Enrich `code-wiki/modules/{module}/README.md` | Technical design |
 | `{module}/data_models.md` | Enrich `code-wiki/data-models.md` | Entity definitions |
 | `{module}/screens.md` | (not migrated — product is real now) | — |
-| `{module}/tickets.md` | (not migrated — historical) | — |
+| `{module}/tickets.json` | (not migrated — historical) | — |
 | Non-standard files | `product-wiki/` or `code-wiki/` (decide per file) | Copy as-is |
 | `_rules/` | `supabuilder/rules/` | Copy directly |
 | `.excalidraw` files | `product-wiki/` or `code-wiki/` canvases | Merge onto wiki canvases |

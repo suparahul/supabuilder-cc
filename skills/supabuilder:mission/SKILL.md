@@ -39,7 +39,7 @@ The user gave a mission description. Classify and confirm:
    └── diagrams/
    ```
 
-   **mission.json** — initialize with v3 schema. Read `~/.claude/supabuilder/reference/state.md` for the full schema. Key fields:
+   **mission.json** — initialize with full schema:
    ```json
    {
      "id": "{folder_name}",

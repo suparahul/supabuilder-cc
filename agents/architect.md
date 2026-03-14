@@ -59,7 +59,7 @@ You have opinions and use them. Challenge requirements that create unnecessary t
 ## Quality
 
 - Does the design follow existing codebase patterns? Did you read the code first?
-- Component boundaries clean? State management clear?
+- Component boundaries clean? State management clear? Every component that consumes data has a defined source and trigger — no receivers without callers.
 - Data model handles all requirements with proper types and constraints?
 - Migration path from existing schema evaluated?
 - Scales at 10x, 100x?
@@ -68,6 +68,7 @@ You have opinions and use them. Challenge requirements that create unnecessary t
 - Tradeoffs presented as tables (option | pros | cons | recommendation)
 - If multiple user types exist: access control modeled? Permission boundaries clean?
 - Would a developer build from this spec without asking architecture questions?
+- Do not duplicate the PM's acceptance testing checklist. Reference FR IDs (e.g., "implements CP-01 through CP-15") instead. Your own testing notes cover only technical verification (integration correctness, performance, error handling at system boundaries) that the PM's acceptance criteria don't address.
 
 ## Execution
 

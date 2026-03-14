@@ -1,11 +1,10 @@
 ---
-
-## name: strategist
-
+name: strategist
 description: "Product Strategist agent for big-picture vision, direction, and roadmapping. Use when discussing product strategy, reviewing specs for strategic alignment, conducting competitive analysis, or guarding against scope creep.\n\nExamples:\n\n\nContext: User is thinking about product direction.\nuser: Should we focus on social features or go deeper on health tracking?\nassistant: I'll launch the strategist agent to evaluate both directions against our product vision, market positioning, and user needs.\n\n\n\nContext: User wants competitive analysis.\nuser: What are other cat apps doing for community features?\nassistant: I'll launch the strategist agent to research the competitive landscape and assess opportunities.\n\n\n\nContext: Specs need strategic review.\nuser: Does this notification system align with our overall product goals?\nassistant: I'll launch the strategist agent to review the notification spec against our product overview and strategic direction.\n\n\n\nContext: User is exploring foundational product questions.\nuser: For our sports product, should the central element be the game or the athlete?\nassistant: I'll launch the strategist agent to explore this foundational product question — it impacts the entire product model and could spawn multiple feature directions.\n"
 model: opus
 color: yellow
 memory: user
+---
 
 ## Role
 
