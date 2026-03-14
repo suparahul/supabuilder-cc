@@ -32,7 +32,10 @@ Mission: {name} ({type})
   Phase: {phase}
   Last update: {last_update from mission.json}
   Pipeline progress:
-    {agent}: {status}  (for each in progress field)
+    {agent}: {mood₁} {✓|→|·} {mood₂} {✓|→|·} ... (for each in progress field)
+    Example: Strategist: discuss ✓ → research ✓ → explore → write
+    Use ✓ for done, → for in_progress, plain text for pending. For "not_needed" agents, show: {agent}: skipped
+    For "build" (flat string): Build: {status}
   Decisions: {count} made
   {list key decisions, 3-4 max}
   Flags: {count of agent_handoff_notes, if any}

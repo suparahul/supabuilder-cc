@@ -110,30 +110,42 @@ All subfolders created at mission initiation — not on demand by agents.
 
 ## mission.json Progress Field
 
-All pipeline steps are always present. Steps not needed for the mission type are set to `"not_needed"` at creation.
+Progress tracks mood-level granularity for each agent. All pipeline steps are always present. Steps not needed for the mission type are set to `"not_needed"` (the entire sub-object becomes the string `"not_needed"`).
 
 ```json
 "progress": {
-  "strategist": "pending",
-  "pm_brief": "pending",
-  "designer": "pending",
-  "pm_requirements": "pending",
-  "architect": "pending",
-  "techpm": "pending",
-  "build": "pending",
-  "qa": "pending"
+  "strategist":  { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+  "pm_first":    { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+  "designer":    { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+  "pm_second":   { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+  "architect":   { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+  "techpm":      { "discuss": "pending", "write": "pending" },
+  "build":       "pending",
+  "qa":          { "discuss": "pending", "write": "pending" }
 }
 ```
 
-Valid values: `"pending"`, `"in_progress"`, `"done"`, `"not_needed"`.
+Mood values: `"pending"` | `"in_progress"` | `"done"`.
 
-**Per-group `not_needed` defaults:**
+- `build` stays a flat string (no mood cycle — it's ticket execution)
+- `pm_second` always runs when PM is in the pipeline — agents skip individual mood phases themselves if not needed
+- Full mood cycle scaffolded for every active agent — agents decide internally whether to skip a phase
 
-- Group 1 (New Product): all pending
-- Group 2 (New Module/Feature/Revamp/Pivot): all pending
-- Group 3 (Integrate/Migrate/Scale): `strategist`, `designer`, `pm_requirements` → `not_needed` (changed to `pending` if pulled in)
-- Group 4 (Enhancement): `strategist` → `not_needed`
-- Group 5 (Quick Fix): `strategist`, `designer`, `pm_requirements` → `not_needed`
+**Deriving mood (mechanical — no judgment):** Orchestrator reads the agent's sub-object, finds the first mood that is not `"done"` → that's the `mood` field in the context packet.
+
+**Per-type defaults:**
+
+| Type | strategist | pm_first | designer | pm_second | architect | techpm | build | qa |
+|------|-----------|----------|----------|-----------|-----------|--------|-------|-----|
+| new-product | full cycle | full cycle | full cycle | full cycle | full cycle | discuss+write | pending | discuss+write |
+| new-module, new-feature, revamp, pivot | full cycle* | full cycle | full cycle | full cycle | full cycle | discuss+write | pending | discuss+write |
+| integrate, migrate, scale | not_needed | full cycle | not_needed† | not_needed | not_needed | discuss+write | pending | discuss+write |
+| enhancement | not_needed | full cycle | full cycle | full cycle | full cycle | discuss+write | pending | discuss+write |
+| quick-fix | not_needed | full cycle‡ | not_needed† | not_needed | not_needed† | discuss+write | pending | discuss+write |
+
+\* If no `strategy/` folder in product-wiki, strategist does strategy research first.
+† Ask user: pull in this agent? If yes → scaffold full cycle.
+‡ Ask user: needs full mission? If no → direct fix.
 
 ---
 

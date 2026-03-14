@@ -137,7 +137,7 @@ mkdir -p "$MISSION_DIR/diagrams"
 | Add `last_update` | *(missing)* | `"last_update": "Migrated from v0.2.x"` |
 | Add `agent_handoff_notes` | *(missing)* | `"agent_handoff_notes": []` |
 
-**Remap `progress`** to the 8-step pipeline:
+**Remap `progress`** to the mood-aware pipeline:
 
 ```jsonc
 // Before (v0.2.x) — agent-name keys
@@ -150,20 +150,26 @@ mkdir -p "$MISSION_DIR/diagrams"
   "qa": "pending"
 }
 
-// After (v0.3.0) — pipeline-step keys
+// After (v0.3.0) — mood-level sub-objects
 "progress": {
-  "strategist": "done",
-  "pm_brief": "done",
-  "designer": "done",         // map from v2 designer status
-  "pm_requirements": "pending",
-  "architect": "pending",
-  "techpm": "pending",
-  "build": "pending",
-  "qa": "pending"
+  "strategist":  { "discuss": "done", "research": "done", "explore": "done", "write": "done" },
+  "pm_first":    { "discuss": "done", "research": "done", "explore": "done", "write": "done" },
+  "designer":    { "discuss": "done", "research": "in_progress", "explore": "pending", "write": "pending" },
+  "pm_second":   { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+  "architect":   { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+  "techpm":      { "discuss": "pending", "write": "pending" },
+  "build":       "pending",
+  "qa":          { "discuss": "pending", "write": "pending" }
 }
 ```
 
-Use your judgment to map v2 progress to v3 steps. All 8 keys must be present with values: `pending`, `in_progress`, `done`, or `not_needed`.
+Use your judgment to map v2 progress to v3 mood sub-objects:
+- If a v2 agent was `"done"`, set all its moods to `"done"`
+- If `"in_progress"`, set `discuss` to `"done"` and `research` to `"in_progress"`, rest `"pending"` (or use best judgment)
+- If `"pending"`, all moods stay `"pending"`
+- If `"not_needed"`, set the entire sub-object to the string `"not_needed"`
+- Map v2 `pm` → `pm_first`; add `pm_second` as `"pending"` (or `"not_needed"` per mission type)
+- Map v2 `developer` → `build` (flat string, no mood sub-object)
 
 **Renumber `decisions`** to numeric string keys:
 
@@ -205,5 +211,5 @@ After migrating, confirm:
 - [ ] `supabuilder/product-wiki/ui-kit/README.md` exists
 - [ ] `supabuilder/product-wiki/strategy/` exists
 - [ ] Each mission folder has `journal.md`, `strategy/`, `specs/`, `prototypes/`, `diagrams/`
-- [ ] Each `mission.json` has the 8-step `progress`, `ticket_tracker`, `last_update`, `agent_handoff_notes`
+- [ ] Each `mission.json` has mood-aware `progress` (sub-objects with discuss/research/explore/write), `ticket_tracker`, `last_update`, `agent_handoff_notes`
 - [ ] Starting a Claude Code session works — orchestrator starts cleanly with no errors

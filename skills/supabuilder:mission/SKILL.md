@@ -53,14 +53,14 @@ The user gave a mission description. Classify and confirm:
      "last_update": "Mission created. Starting pipeline.",
      "decisions": {},
      "progress": {
-       "strategist": "pending",
-       "pm_brief": "pending",
-       "designer": "pending",
-       "pm_requirements": "pending",
-       "architect": "pending",
-       "techpm": "pending",
-       "build": "pending",
-       "qa": "pending"
+       "strategist":  { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+       "pm_first":    { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+       "designer":    { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+       "pm_second":   { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+       "architect":   { "discuss": "pending", "research": "pending", "explore": "pending", "write": "pending" },
+       "techpm":      { "discuss": "pending", "write": "pending" },
+       "build":       "pending",
+       "qa":          { "discuss": "pending", "write": "pending" }
      },
      "agent_handoff_notes": [],
      "modules": [],
@@ -68,12 +68,13 @@ The user gave a mission description. Classify and confirm:
    }
    ```
 
-   **Set `not_needed` defaults per mission type group** (read `~/.claude/supabuilder/reference/missions.md` for group rules):
-   - Group 1 (New Product): all pending
-   - Group 2 (New Module/Feature/Revamp/Pivot): all pending
-   - Group 3 (Integrate/Migrate/Scale): `strategist`, `designer`, `pm_requirements` → `not_needed`
-   - Group 4 (Enhancement): `strategist` → `not_needed`
-   - Group 5 (Quick Fix): `strategist`, `designer`, `pm_requirements` → `not_needed`
+   **Set `not_needed` defaults per mission type group** (read `~/.claude/supabuilder/reference/missions.md` for group rules).
+   When an agent is not needed, set its entire sub-object to the string `"not_needed"`:
+   - Group 1 (New Product): all agents get full mood cycles
+   - Group 2 (New Module/Feature/Revamp/Pivot): all agents get full mood cycles
+   - Group 3 (Integrate/Migrate/Scale): `strategist`, `designer`, `pm_second`, `architect` → `"not_needed"`
+   - Group 4 (Enhancement): `strategist` → `"not_needed"`
+   - Group 5 (Quick Fix): `strategist`, `designer`, `pm_second`, `architect` → `"not_needed"`
 
    **journal.md** — initialize with:
    ```markdown
