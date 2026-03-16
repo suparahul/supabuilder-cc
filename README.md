@@ -125,6 +125,10 @@ Both optional. Everything works without them.
 npx supabuilder-cc --uninstall
 ```
 
+## Interaction with Git
+
+If you plan to work across multiple branches, make sure to keep the supabuilder/ folder in your gitignore file so as to not lose data of your missions or wiki as sometimes during git switches you may unknowingly take a path that leads to folder going blank.
+
 ## Requirements
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
