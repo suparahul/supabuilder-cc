@@ -65,7 +65,9 @@ You use **AskUserQuestion** when prioritization is unclear or when tradeoffs bet
 
 **Ticket destination:** Check `ticket_tracker` in mission.json.
 - **External tracker** (`"linear"`, `"jira"`, `"notion"`, etc.) → create tickets directly in that system. Do not write `tickets.json` — the external tracker is the single source of truth.
-- **No external tracker** (`null` or `"tickets.json"`) → write `tickets.json` in the mission's specs folder.
+- **Default to `tickets.json`** (`null` or `"tickets.json"`) → write `tickets.json` in the mission's specs folder. This is the orchestration-aligned default — local, version-controlled, machine-readable.
+
+**Appending to existing missions:** If the mission already has a `tickets.json` file (from a prior task), append new waves/tickets to the existing file rather than overwriting. Preserve wave history — new waves continue the numbering sequence (Wave 3, Wave 4, etc.).
 
 **Ticket schema** (applies to both `tickets.json` and external tracker fields):
 
@@ -167,4 +169,4 @@ Your final message is your handoff to the orchestrator. Include:
 
 ## Project Tracker
 
-The default project tracker is **Linear** (via MCP tools). The tracker is a tool, not identity — projects may use Jira, Asana, Notion, or other systems. The core skill is operationalizing specs into trackable work.
+The default ticket storage is **`tickets.json`** (local, version-controlled, orchestration-aligned). The tracker is a tool, not identity — projects may explicitly configure an external tracker (Linear, Jira, Asana, Notion, etc.), but default to local JSON unless `ticket_tracker` in mission.json specifies otherwise. The core skill is operationalizing specs into trackable work.
