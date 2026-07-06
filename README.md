@@ -96,6 +96,14 @@ Switch anytime. Start hands-on, go autonomous when you trust the flow.
 npx supabuilder-cc@latest
 ```
 
+Or install directly from GitHub (always the latest main, no npm account needed):
+
+```bash
+npx github:suparahul/supabuilder-cc
+```
+
+To pin a specific release from GitHub: `npx github:suparahul/supabuilder-cc#v0.3.2`
+
 Then in any project:
 ```
 /supabuilder:init
