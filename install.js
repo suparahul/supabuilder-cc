@@ -3,6 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const VERSION = require('./package.json').version;
+
 const HOME = process.env.HOME || process.env.USERPROFILE;
 const CLAUDE_DIR = path.join(HOME, '.claude');
 const AGENTS_DIR = path.join(CLAUDE_DIR, 'agents');
@@ -132,7 +134,7 @@ console.log('  ███████║╚██████╔╝██║     
 console.log('  ╚══════╝ ╚═════╝ ╚═╝     ╚═╝  ╚═╝');
 console.log('           B U I L D E R');
 console.log('');
-console.log(`  v0.3.0 — "${tagline}"`);
+console.log(`  v${VERSION} — "${tagline}"`);
 console.log('');
 
 // Ensure directories exist
@@ -183,6 +185,8 @@ let refCount = 0;
 if (fs.existsSync(SRC_REFERENCE)) {
   copyDirRecursive(SRC_REFERENCE, REFERENCE_DIR);
   refCount = fs.readdirSync(SRC_REFERENCE).filter(f => f.endsWith('.md')).length;
+  stampVersion(path.join(REFERENCE_DIR, 'branding.md'));
+  stampVersion(path.join(REFERENCE_DIR, 'init-scaffold.md'));
 }
 console.log(`    ${refCount} reference files installed\n`);
 
@@ -263,6 +267,16 @@ console.log('    /supabuilder:settings   Configure cost mode, user control');
 console.log('    /sketch                 Excalidraw diagrams');
 console.log('    /napkin                 Per-repo mistake tracking');
 console.log('  ────────────────────────────────────────────\n');
+
+// Sync any hardcoded version strings with package.json so the
+// orchestrator's version check (which reads branding.md) never drifts.
+function stampVersion(file) {
+  if (!fs.existsSync(file)) return;
+  const content = fs.readFileSync(file, 'utf8')
+    .replace(/v\d+\.\d+\.\d+/g, `v${VERSION}`)
+    .replace(/"supabuilder_version": "\d+\.\d+\.\d+"/g, `"supabuilder_version": "${VERSION}"`);
+  fs.writeFileSync(file, content);
+}
 
 function copyDirRecursive(src, dest) {
   const entries = fs.readdirSync(src, { withFileTypes: true });

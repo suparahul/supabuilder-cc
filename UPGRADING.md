@@ -1,3 +1,20 @@
+# Upgrading
+
+## Upgrading to v0.3.2
+
+```bash
+npx supabuilder-cc@latest
+```
+
+No manual migration needed. What's new:
+
+- **Canonical UI Kit spec** — the previously missing `design-system-preview.md` referenced by the Designer now exists as `~/.claude/supabuilder/reference/ui-kit.md` (structure, theming, import rules, screens library, sync process). Conflicting UI Kit definitions across designer.md/prototyping.md are reconciled, and the documented kit import paths are corrected.
+- **UI Kit stays current** — the Designer runs a currency check at the start of each design mission and a kit sync at mission completion: final screen designs are promoted into `product-wiki/ui-kit/screens/` (a `## Screens` registry tracks them), so later missions evolve existing screens instead of reinventing them.
+- Existing kits (including ones whose preview "Screens" tab points into an old mission folder) need no manual changes — the Designer reconciles them during the currency check / first kit sync of the next design mission.
+- Version strings are now single-sourced from package.json; the orchestrator template update propagates automatically via its version check on your next session.
+
+---
+
 # Upgrading to v0.3.0
 
 Migration guide for existing v0.2.x projects. Three parts: re-install, per-project workspace migration, and CLAUDE.md regeneration.

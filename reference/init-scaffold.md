@@ -16,7 +16,8 @@ supabuilder/
 │   ├── strategy/
 │   ├── modules/
 │   └── ui-kit/
-│       └── README.md
+│       ├── README.md
+│       └── screens/
 ├── code-wiki/
 │   ├── README.md
 │   ├── architecture-map.md
@@ -69,14 +70,26 @@ Empty Excalidraw canvas:
 ```markdown
 # UI Kit
 
-<!-- Design language for HTML/CSS prototypes -->
-<!-- Created by the Designer agent — tokens, components, and preview -->
+<!-- Design language for HTML/CSS prototypes — full spec: ~/.claude/supabuilder/reference/ui-kit.md -->
+<!-- Created by the Designer agent during the first design mission's explore mood -->
 
 ## Status
-Not yet populated. The Designer agent creates this during the first design mission.
+Not yet populated. The Designer agent creates the kit during the first design mission.
 
-## History
+## Sources
+<!-- Token source file paths detected during init (theme configs, token files) -->
+
+## Screens
+<!-- Current-state screen library registry. Rows added by the Designer's kit sync at mission completion. -->
+
+| Screen | File | Last mission | Status | Notes |
+|--------|------|--------------|--------|-------|
+
+## Sync Log
+<!-- One line per event: kit created, tokens synced, screens promoted, mission completed. Appended by Designer (syncs) and orchestrator (mission completions). -->
 ```
+
+Also create the empty `product-wiki/ui-kit/screens/` folder.
 
 ### `code-wiki/README.md`
 ```markdown
@@ -169,7 +182,7 @@ Empty Excalidraw canvas (same as product-overview).
 ```json
 {
   "orchestrator_active": true,
-  "supabuilder_version": "0.3.0",
+  "supabuilder_version": "0.3.2",
   "cost_mode": "smart",
   "user_control": "hands-on"
 }

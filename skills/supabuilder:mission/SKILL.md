@@ -36,6 +36,7 @@ The user gave a mission description. Classify and confirm:
    ├── strategy/
    ├── specs/
    ├── prototypes/
+   ├── _explorations/
    └── diagrams/
    ```
 

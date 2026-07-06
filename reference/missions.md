@@ -81,6 +81,8 @@ User input → Detect/classify mission type → Create mission folder
 
   → COMPLETION:
       Complete Gate (G3) — update wikis (non-negotiable)
+      Kit sync — spawn designer (targeted) if mission produced prototypes;
+      always append mission-completed line to ui-kit README ## Sync Log
       Update memory.md
       Suggest follow-up mission if natural continuation exists
 
@@ -101,6 +103,7 @@ missions/{id}/
 ├── strategy/           ← Strategist output for THIS mission
 ├── specs/              ← agent spec outputs (requirements.md, architecture.md, etc.)
 ├── prototypes/         ← Designer prototypes
+├── _explorations/      ← Designer variation explorations (archived after direction chosen)
 ├── diagrams/           ← All Excalidraw diagrams
 ```
 

@@ -111,6 +111,7 @@ Your final message is your handoff to the orchestrator. Include:
 - Deliverables produced (file paths)
 - Flags: critical blockers, systemic spec gaps, areas needing re-testing after fixes
 - Routing recommendations: which findings go to which agent
+- Prototype deviations: when prototypes exist, explicitly list where the implementation deviates from them (screen by screen, "none" if faithful) — the Designer's kit sync at mission completion consumes this
 
 ## File Ownership
 

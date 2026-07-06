@@ -67,7 +67,7 @@ Large variation structure:
 _explorations/
 ├── variation-a/
 │   ├── index.html
-│   ├── _styles.css         ← imports from ../prototypes/_styles.css, overrides
+│   ├── _styles.css         ← imports from ../../prototypes/_styles.css, overrides
 │   └── {screens}.html
 ├── variation-b/
 │   └── ...
@@ -78,68 +78,19 @@ Present `comparison.html` to the user during explore mood. After selection, chos
 
 ## UI Kit
 
-The UI Kit defines the product's visual language as reusable CSS — colors, typography, spacing, components. Lives at the product level (persists across missions).
+The UI Kit defines the product's visual language as reusable CSS, a browsable preview, and a screens library. It lives at `product-wiki/ui-kit/` (persists across missions). **The canonical spec — structure, README sections, theming, creation, currency check, kit sync — is `~/.claude/supabuilder/reference/ui-kit.md`.** Read it before any kit work. Summary of what matters while prototyping:
 
-**Location:** `product-wiki/ui-kit/`
+**Single import point.** Each mission's prototypes import the kit in exactly one file — `prototypes/_styles.css`. Everything else chains through it (prototype pages import `_styles.css`; exploration variants import `../../prototypes/_styles.css`). Never import the kit from any other file.
 
-```
-product-wiki/ui-kit/
-├── README.md               ← design language overview, source framework, decisions
-├── tokens.css              ← CSS custom properties: colors, spacing, typography, radii
-├── components.css          ← reusable classes: buttons, cards, inputs, modals
-└── preview.html            ← live preview showing all tokens and components
-```
-
-**Prototypes import it:**
 ```css
-/* _styles.css */
-@import '../../product-wiki/ui-kit/tokens.css';
-@import '../../product-wiki/ui-kit/components.css';
+/* missions/{id}/prototypes/_styles.css */
+@import '../../../product-wiki/ui-kit/tokens.css';
+@import '../../../product-wiki/ui-kit/components.css';
 /* Mission-specific styles below */
 ```
 
-**Creating the UI Kit:**
-- **New product:** Create during first mission's explore mood. Start minimal — expand as more screens are designed.
-- **Existing product:** Extract design tokens from codebase (see Design Language Extraction below). If no UI Kit exists when you're spawned, establish one in your discuss mood.
+**Only `tokens.css` and `components.css` are importable.** The kit's `.html` pages are documentation; `_preview.css` is preview chrome — prototypes never import either.
 
-**Maintaining:** You own the UI Kit. Update during missions when new patterns emerge. Keep `preview.html` current.
+**Timing.** Init only records token sources in the kit README (`## Sources`). You build the kit in your first design mission's **explore mood Phase 1** (extraction for existing codebases, visual-language exploration for new products — both defined in ui-kit.md). In later missions you run the currency check (ui-kit.md) instead of rebuilding.
 
-## Design Language Extraction
-
-For existing codebases, extract the visual language from code into the HTML/CSS UI Kit.
-
-### When does this happen?
-
-Init detects token source files and records their paths in `code-wiki/`. The Designer does the actual extraction during their first mission — this is NOT an init-time task.
-
-- **Existing product with detected tokens:** During your first explore mood, extract tokens from the paths listed in code-wiki before prototyping screens. Validate the extracted UI Kit with the user.
-- **New product (no codebase yet):** No extraction needed — you're creating the visual language from scratch (see Visual Language for New Products below).
-
-### Where to find tokens
-
-| Framework | Token sources |
-|---|---|
-| Flutter | `ThemeData`, `ColorScheme`, `TextTheme` |
-| React + Tailwind | `tailwind.config.js`, CSS custom properties |
-| React + CSS-in-JS | Theme objects, styled-components theme |
-| SwiftUI | Asset catalogs, Color extensions |
-| Any | Shared constants, design token files, style utilities |
-
-### Process
-
-Scan theme/config files → map to CSS custom properties (`Colors.blue[700]` → `--color-primary: #1976D2`) → build component classes matching existing patterns → create `preview.html` → present to user for validation.
-
-HTML/CSS prototypes won't pixel-match native apps. The goal is **visual kinship** — same color temperature, density, typography character, spacing rhythm.
-
-## Visual Language for New Products
-
-Establishing a visual language for a new product is **significant creative work** — not something to rush through as a side task during prototyping. Treat it as a first-class deliverable.
-
-During **explore mood** for a new product's first mission:
-- Dedicate time to visual language exploration alongside screen variations
-- Explore 2-3 visual directions (color palettes, type scales, spacing systems, component styles)
-- Present visual directions to user before committing to one
-- Build the UI Kit from the chosen direction
-- Then prototype screens using the established kit
-
-The visual language sets the tone for every future screen. Get it right early — changing it later means reworking everything.
+**Build on existing screens.** Before designing a screen, check the kit README's `## Screens` registry. If the screen exists, start from `ui-kit/screens/{slug}.html` and evolve it — don't reimagine a screen another mission already designed. New tokens/components you introduce get extracted into the kit at mission completion (kit sync), not left in mission CSS.
