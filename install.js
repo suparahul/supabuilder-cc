@@ -28,7 +28,8 @@ const OLD_AGENT_FILES = ['supabuilder-shared-context.md'];
 const OLD_REFERENCE_FILES = [
   'moods.md', 'visual-protocol.md',
   'soul.md', 'coordination.md', 'gates.md',
-  'build-phase.md', 'user-interaction.md', 'linear.md'
+  'build-phase.md', 'user-interaction.md', 'linear.md',
+  'state.md'
 ];
 
 // Old files to warn about
@@ -239,7 +240,7 @@ for (const oldRef of OLD_REFERENCE_FILES) {
   }
 }
 if (oldRefsRemoved > 0) {
-  console.log(`  Upgrade: removed ${oldRefsRemoved} old reference files (moods.md, visual-protocol.md)\n`);
+  console.log(`  Upgrade: removed ${oldRefsRemoved} old reference file(s) from previous versions\n`);
 }
 
 // 6. Warn about old files
